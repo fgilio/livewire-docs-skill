@@ -4,7 +4,9 @@ description: >
   Laravel Livewire v3 documentation lookup.
   Provides offline access to livewire.laravel.com/docs via CLI.
   Use for: directives, component patterns, lifecycle hooks, forms, events, validation.
-  Trigger words: Livewire, wire:model, wire:click, Livewire component, Livewire directive.
+  Keywords: Livewire, wire:model, wire:click.
+user-invocable: true
+disable-model-invocation: false
 ---
 
 # Livewire Docs CLI
