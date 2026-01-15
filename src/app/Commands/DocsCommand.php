@@ -29,6 +29,7 @@ class DocsCommand extends Command
         if ($this->option('json')) {
             $this->line(json_encode($items, JSON_PRETTY_PRINT));
             $analytics->track('docs', self::SUCCESS, ['category' => $category], $startTime);
+
             return self::SUCCESS;
         }
 

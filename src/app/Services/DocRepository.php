@@ -30,10 +30,11 @@ class DocRepository
     {
         if (\Phar::running()) {
             $pharPath = \Phar::running(false);
-            return dirname($pharPath) . '/data';
+
+            return dirname($pharPath).'/data';
         }
 
-        return dirname(__DIR__, 3) . '/data';
+        return dirname(__DIR__, 3).'/data';
     }
 
     public function getCategories(): array
@@ -75,6 +76,7 @@ class DocRepository
         }
 
         sort($names);
+
         return $names;
     }
 
@@ -92,6 +94,7 @@ class DocRepository
 
             if (file_exists($path)) {
                 $content = file_get_contents($path);
+
                 return json_decode($content, true);
             }
         }
@@ -140,7 +143,7 @@ class DocRepository
             }
         }
 
-        usort($directives, fn($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
+        usort($directives, fn ($a, $b) => strcmp($a['name'] ?? '', $b['name'] ?? ''));
 
         return $directives;
     }
@@ -155,7 +158,7 @@ class DocRepository
 
         $path = "{$dir}/{$slug}.json";
         $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        file_put_contents($path, $json . "\n");
+        file_put_contents($path, $json."\n");
     }
 
     public function suggest(string $name, int $limit = 5): array
@@ -169,6 +172,7 @@ class DocRepository
         }
 
         asort($suggestions);
+
         return array_slice(array_keys($suggestions), 0, $limit);
     }
 
@@ -198,7 +202,7 @@ class DocRepository
     {
         $path = "{$this->dataPath}/index.json";
         $json = json_encode($index, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        file_put_contents($path, $json . "\n");
+        file_put_contents($path, $json."\n");
     }
 
     /**
@@ -255,6 +259,7 @@ class DocRepository
         ];
 
         $this->saveIndex($index);
+
         return $index;
     }
 

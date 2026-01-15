@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a47b659363903feac8a0a5c7708c5e68",
+    "content-hash": "9d36777415a6acbe93f1f771d9a1613e",
     "packages": [
         {
             "name": "brick/math",
@@ -291,16 +291,16 @@
         },
         {
             "name": "fgilio/agent-skill-foundation",
-            "version": "v0.4.1",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fgilio/agent-skill-foundation",
-                "reference": "51f0b065f939d48e6d77745023bb4562722844c8"
+                "reference": "d3a805f8981514dcea92c6fe517fbce6b95ba6fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fgilio/agent-skill-foundation/zipball/51f0b065f939d48e6d77745023bb4562722844c8",
-                "reference": "51f0b065f939d48e6d77745023bb4562722844c8",
+                "url": "https://api.github.com/repos/fgilio/agent-skill-foundation/zipball/d3a805f8981514dcea92c6fe517fbce6b95ba6fb",
+                "reference": "d3a805f8981514dcea92c6fe517fbce6b95ba6fb",
                 "shasum": ""
             },
             "require": {
@@ -311,10 +311,10 @@
             },
             "require-dev": {
                 "laravel-zero/framework": "^12.0",
-                "laravel/pint": "^1.18",
-                "pestphp/pest": "^3.0",
+                "laravel/pint": "^1.27",
+                "pestphp/pest": "^4.0",
                 "phpstan/phpstan": "^2.1",
-                "phpunit/phpunit": "^11.0"
+                "phpunit/phpunit": "^12.0"
             },
             "type": "library",
             "extra": {
@@ -347,7 +347,7 @@
                 "routing",
                 "skills"
             ],
-            "time": "2026-01-05T13:47:23+00:00"
+            "time": "2026-01-06T20:11:18+00:00"
         },
         {
             "name": "filp/whoops",
@@ -6879,6 +6879,59 @@
             "time": "2025-08-30T15:50:23+00:00"
         },
         {
+            "name": "phpstan/phpstan",
+            "version": "2.1.33",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9e800e6bee7d5bd02784d4c6069b48032d16224f",
+                "reference": "9e800e6bee7d5bd02784d4c6069b48032d16224f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
+            "support": {
+                "docs": "https://phpstan.org/user-guide/getting-started",
+                "forum": "https://github.com/phpstan/phpstan/discussions",
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "security": "https://github.com/phpstan/phpstan/security/policy",
+                "source": "https://github.com/phpstan/phpstan-src"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-12-05T10:24:31+00:00"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "12.5.2",
             "source": {
@@ -8444,7 +8497,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.3"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"

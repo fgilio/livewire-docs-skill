@@ -5,6 +5,7 @@ namespace App\Commands;
 use App\Services\DocRepository;
 use App\Services\Scraper;
 use LaravelZero\Framework\Commands\Command;
+
 use function Laravel\Prompts\progress;
 
 /**
@@ -53,6 +54,7 @@ class UpdateCommand extends Command
 
         if (! $doc) {
             $this->error("Failed to scrape: {$slug}");
+
             return self::FAILURE;
         }
 
@@ -85,10 +87,11 @@ class UpdateCommand extends Command
 
         if (empty($items)) {
             $this->error('No items discovered. Check network connection.');
+
             return self::FAILURE;
         }
 
-        $this->info('Found ' . count($items) . ' documentation pages.');
+        $this->info('Found '.count($items).' documentation pages.');
         $this->newLine();
 
         if ($dryRun) {
@@ -161,10 +164,11 @@ class UpdateCommand extends Command
         $directives = $scraper->generateDirectives();
 
         if ($dryRun) {
-            $this->info('Dry run - would generate ' . count($directives) . ' directive files.');
+            $this->info('Dry run - would generate '.count($directives).' directive files.');
             foreach ($directives as $name => $directive) {
                 $this->line("  - {$name}");
             }
+
             return self::SUCCESS;
         }
 
@@ -174,7 +178,7 @@ class UpdateCommand extends Command
             $repo->save('directives', $baseName, $directive);
         }
 
-        $this->info('Generated ' . count($directives) . ' directive files.');
+        $this->info('Generated '.count($directives).' directive files.');
 
         // Rebuild index to include directives
         $repo->rebuildIndex();

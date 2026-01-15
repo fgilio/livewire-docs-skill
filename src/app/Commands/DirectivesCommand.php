@@ -25,12 +25,14 @@ class DirectivesCommand extends Command
 
         if (empty($directives)) {
             $this->warn('No directives found. Run "livewire-docs update --directives-only" to generate.');
+
             return self::FAILURE;
         }
 
         if ($this->option('json')) {
             $this->line(json_encode($directives, JSON_PRETTY_PRINT));
             $analytics->track('directives', self::SUCCESS, ['count' => count($directives)], $startTime);
+
             return self::SUCCESS;
         }
 
@@ -43,7 +45,7 @@ class DirectivesCommand extends Command
 
             return [
                 $directive['name'] ?? '',
-                mb_substr($directive['description'] ?? '', 0, 60) . $variantNote,
+                mb_substr($directive['description'] ?? '', 0, 60).$variantNote,
             ];
         }, $directives);
 

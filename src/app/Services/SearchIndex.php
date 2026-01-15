@@ -48,7 +48,7 @@ class SearchIndex
         }
 
         // Sort by score descending
-        usort($results, fn($a, $b) => $b['score'] <=> $a['score']);
+        usort($results, fn ($a, $b) => $b['score'] <=> $a['score']);
 
         return array_slice($results, 0, $limit);
     }

@@ -61,7 +61,7 @@ class SearchCommand extends Command
             return [
                 $name,
                 $type === 'directive' ? 'directive' : $category,
-                mb_substr($result['description'] ?? '', 0, 50) . (strlen($result['description'] ?? '') > 50 ? '...' : ''),
+                mb_substr($result['description'] ?? '', 0, 50).(strlen($result['description'] ?? '') > 50 ? '...' : ''),
             ];
         }, $results);
 

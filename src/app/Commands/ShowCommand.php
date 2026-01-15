@@ -16,6 +16,7 @@ use LaravelZero\Framework\Commands\Command;
 class ShowCommand extends Command
 {
     use AgentCommand;
+
     protected $signature = 'show
         {topic : Topic slug (e.g., properties, forms, events)}
         {--section= : Show specific section only}
@@ -120,7 +121,7 @@ class ShowCommand extends Command
                 $lang = $this->detectLanguage($code);
 
                 if ($type === 'volt') {
-                    $this->line("*Volt (functional):*");
+                    $this->line('*Volt (functional):*');
                 }
 
                 $this->line("```{$lang}");

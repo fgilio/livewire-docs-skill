@@ -15,7 +15,9 @@ use Symfony\Component\DomCrawler\Crawler;
 class Scraper
 {
     private Client $client;
+
     private string $baseUrl = 'https://livewire.laravel.com';
+
     private string $docsVersion = '3.x';
 
     /**
@@ -100,9 +102,9 @@ class Scraper
             $crawler = new Crawler($html);
 
             // Find navigation links
-            $crawler->filter('a[href*="/docs/' . $this->docsVersion . '/"]')->each(function (Crawler $link) use (&$items) {
+            $crawler->filter('a[href*="/docs/'.$this->docsVersion.'/"]')->each(function (Crawler $link) use (&$items) {
                 $href = $link->attr('href');
-                if (preg_match('/\/docs\/' . preg_quote($this->docsVersion, '/') . '\/([^\/\?#]+)/', $href, $matches)) {
+                if (preg_match('/\/docs\/'.preg_quote($this->docsVersion, '/').'\/([^\/\?#]+)/', $href, $matches)) {
                     $slug = $matches[1];
                     $category = $this->categorize($slug);
 
@@ -150,6 +152,7 @@ class Scraper
                 return true;
             }
         }
+
         return false;
     }
 
@@ -178,7 +181,7 @@ class Scraper
             'title' => $this->extractTitle($crawler),
             'description' => $this->extractDescription($crawler),
             'category' => $category,
-            'url' => $this->baseUrl . $url,
+            'url' => $this->baseUrl.$url,
             'sections' => $sections,
             'directives_used' => $directivesUsed,
             'related' => $this->extractRelated($crawler, $slug),
@@ -329,6 +332,7 @@ class Scraper
     private function extractTitle(Crawler $crawler): string
     {
         $h1 = $crawler->filter('h1')->first();
+
         return $h1->count() > 0 ? trim($h1->text()) : '';
     }
 
@@ -402,7 +406,7 @@ class Scraper
         $crawler->filter('p')->each(function (Crawler $p) use (&$section) {
             $text = trim($p->text());
             if ($text && strlen($text) > 5) {
-                $section['content'] .= $text . "\n";
+                $section['content'] .= $text."\n";
             }
         });
 
@@ -460,6 +464,7 @@ class Scraper
         }
 
         sort($directives);
+
         return $directives;
     }
 
@@ -467,9 +472,9 @@ class Scraper
     {
         $related = [];
 
-        $crawler->filter('a[href*="/docs/' . $this->docsVersion . '/"]')->each(function (Crawler $a) use (&$related, $currentSlug) {
+        $crawler->filter('a[href*="/docs/'.$this->docsVersion.'/"]')->each(function (Crawler $a) use (&$related, $currentSlug) {
             $href = $a->attr('href');
-            if (preg_match('/\/docs\/' . preg_quote($this->docsVersion, '/') . '\/([^\/\?#]+)/', $href, $matches)) {
+            if (preg_match('/\/docs\/'.preg_quote($this->docsVersion, '/').'\/([^\/\?#]+)/', $href, $matches)) {
                 $slug = $matches[1];
                 if ($slug !== $currentSlug && ! in_array($slug, $related)) {
                     $related[] = $slug;
