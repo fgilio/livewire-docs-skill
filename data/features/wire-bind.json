@@ -1,0 +1,68 @@
+{
+    "slug": "wire-bind",
+    "title": "wire:bind",
+    "description": "wire:bind is a directive that dynamically binds HTML attributes to component properties or expressions. Unlike using Blade's attribute syntax, wire:bind updates the attribute reactively on the client without requiring a full re-render.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-bind",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "As the user types, wire:bind:class reacts to the message length and applies the class instantly on the client.",
+            "examples": [
+                {
+                    "code": "<input wire:model=\"message\" wire:bind:class=\"message.length > 240 && 'text-red-500'\">",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Common use cases",
+            "content": "",
+            "examples": [
+                {
+                    "code": "<div wire:bind:style=\"{ 'color': textColor, 'font-size': fontSize + 'px' }\"> Styled text</div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<a wire:bind:href=\"url\">Dynamic link</a>",
+                    "type": "class"
+                },
+                {
+                    "code": "<button wire:bind:disabled=\"isArchived\">Delete</button>",
+                    "type": "class"
+                },
+                {
+                    "code": "<div wire:bind:data-count=\"count\">...</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Reference",
+            "content": "Replace {attribute} with any valid HTML attribute name (e.g., class, style, href, disabled, data-*).\nThis directive has no modifiers.",
+            "examples": [
+                {
+                    "code": "wire:bind:{attribute}=\"expression\"",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [
+        "wire:bind",
+        "wire:model"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:09:50+00:00"
+}

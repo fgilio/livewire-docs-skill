@@ -3,7 +3,7 @@
     "title": "Morphing",
     "description": "When a Livewire component updates the browser's DOM, it does so in an intelligent way we call \"morphing\". The term morph is in contrast with a word like replace.",
     "category": "advanced",
-    "url": "https://livewire.laravel.com/docs/3.x/morphing",
+    "url": "https://livewire.laravel.com/docs/4.x/morphing",
     "sections": [
         {
             "title": "#How morphing works",
@@ -14,7 +14,7 @@
                     "type": "class"
                 },
                 {
-                    "code": "<form wire:submit=\"add\"> <ul> @foreach ($todos as $item) <li>{{ $item }}</li> @endforeach </ul>  <input wire:model=\"todo\"></form>",
+                    "code": "<form wire:submit=\"add\"> <ul> @foreach ($todos as $item) <li wire:key=\"{{ $loop->index }}\">{{ $item }}</li> @endforeach </ul>  <input wire:model=\"todo\"></form>",
                     "type": "class"
                 },
                 {
@@ -51,20 +51,21 @@
         }
     ],
     "directives_used": [
+        "wire:key",
         "wire:model",
         "wire:submit"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:55+00:00"
+    "scraped_at": "2026-02-23T13:10:27+00:00"
 }

@@ -1,0 +1,73 @@
+{
+    "slug": "attribute-transition",
+    "title": "Transition",
+    "description": "The #[Transition] attribute configures view transition behavior for action methods, allowing you to set transition types or skip transitions entirely.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-transition",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[Transition] attribute to action methods that should trigger specific transition animations:\nThe transition type can be targeted in CSS using the :active-view-transition-type() selector:",
+            "examples": [
+                {
+                    "code": "<?php use Livewire\\Attributes\\Transition;use Livewire\\Component; class Wizard extends Component{ public $step = 1;  #[Transition(type: 'forward')] public function next() { $this->step++; }  #[Transition(type: 'backward')] public function previous() { $this->step--; }}",
+                    "type": "class"
+                },
+                {
+                    "code": "<div> <div wire:transition=\"content\"> Step {{ $step }} </div>  <button wire:click=\"previous\">Back</button> <button wire:click=\"next\">Next</button></div>",
+                    "type": "class"
+                },
+                {
+                    "code": "html:active-view-transition-type(forward) { &::view-transition-old(content) { animation: 300ms ease-out slide-out-left; } &::view-transition-new(content) { animation: 300ms ease-in slide-in-right; }} html:active-view-transition-type(backward) { &::view-transition-old(content) { animation: 300ms ease-out slide-out-right; } &::view-transition-new(content) { animation: 300ms ease-in slide-in-left; }} @keyframes slide-out-left { from { transform: translateX(0); opacity: 1; } to { transform: translateX(-100%); opacity: 0; }} @keyframes slide-in-right { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; }} @keyframes slide-out-right { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; }} @keyframes slide-in-left { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; }}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Skipping transitions",
+            "content": "Use skip: true to disable transitions for specific actions:\nThis is useful for actions like \"reset\" or \"cancel\" that should instantly update without animation.",
+            "examples": [
+                {
+                    "code": "#[Transition(skip: true)]public function reset(){ $this->step = 1;}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Alternative approaches",
+            "content": "For dynamic transition types that depend on runtime logic, use the transition() method instead:\nYou can also skip transitions imperatively:",
+            "examples": [
+                {
+                    "code": "public function goToStep($step){ $this->transition(type: $step > $this->step ? 'forward' : 'backward');  $this->step = $step;}",
+                    "type": "class"
+                },
+                {
+                    "code": "public function reset(){ $this->skipTransition();  $this->step = 1;}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Learn more",
+            "content": "For more information about view transitions, see the wire:transition documentation.",
+            "examples": []
+        }
+    ],
+    "directives_used": [
+        "wire:click",
+        "wire:transition"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:21+00:00"
+}

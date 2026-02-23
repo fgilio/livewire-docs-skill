@@ -1,0 +1,79 @@
+{
+    "slug": "attribute-json",
+    "title": "Json",
+    "description": "The #[Json] attribute marks an action as a JSON endpoint, returning data directly to JavaScript. Validation errors trigger a promise rejection with structured error data. This is ideal for actions consumed by JavaScript rather than rendered in Blade.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-json",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[Json] attribute to any action method that returns data for JavaScript consumption:\nThe search() method returns posts directly to Alpine, where they're stored in the posts array and rendered client-side.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡search.blade.php use Livewire\\Attributes\\Json;use Livewire\\Component;use App\\Models\\Post; new class extends Component { #[Json] public function search($query) { return Post::where('title', 'like', \"%{$query}%\") ->limit(10) ->get(); }};",
+                    "type": "class"
+                },
+                {
+                    "code": "<div x-data=\"{ query: '', posts: [] }\"> <input type=\"text\" x-model=\"query\" x-on:input.debounce=\"$wire.search(query).then(data => posts = data)\" >  <ul> <template x-for=\"post in posts\"> <li x-text=\"post.title\"></li> </template> </ul></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Handling responses",
+            "content": "JSON methods resolve with the return value on success, and reject on validation failure:\nOn success:\nOn validation failure:\nOr using .catch():",
+            "examples": [
+                {
+                    "code": "let data = await $wire.search('query')// data = [ { id: 1, title: '...' }, ...]",
+                    "type": "class"
+                },
+                {
+                    "code": "try { let data = await $wire.save()} catch (e) { // e.status = 422 // e.errors = { name: ['The name field is required.'] }}",
+                    "type": "class"
+                },
+                {
+                    "code": "$wire.save() .then(data => { // Handle success console.log(data) }) .catch(e => { if (e.status === 422) { // Handle validation errors console.log(e.errors) } })",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Error rejection shape",
+            "content": "When a promise is rejected, the error object has this structure:\nFor HTTP errors (500, etc.), the shape is the same but with the actual response data:",
+            "examples": [
+                {
+                    "code": "{ status: 422, // HTTP status code (422 for validation errors) body: null, // Raw response body (null for validation errors) json: null, // Parsed JSON (null for validation errors) errors: {...} // Validation errors object}",
+                    "type": "class"
+                },
+                {
+                    "code": "{ status: 500, body: '<html>...</html>', json: null, errors: null}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Behavior",
+            "content": "The #[Json] attribute automatically applies two behaviors:\nThese behaviors match what you'd expect from an API-style endpoint.",
+            "examples": []
+        },
+        {
+            "title": "#When to use",
+            "content": "Use #[Json] when:\nValidation errors from JSON methods are only returned via promise rejection. They don't appear in $wire.$errors or the component's error bag. This is intentional—JSON methods are self-contained and don't affect the component's rendered state.",
+            "examples": []
+        }
+    ],
+    "directives_used": [],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:13+00:00"
+}

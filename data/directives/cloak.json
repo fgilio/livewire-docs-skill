@@ -1,0 +1,12 @@
+{
+    "name": "wire:cloak",
+    "description": "Hide an element until Livewire has fully initialized on the page",
+    "variants": [
+        {
+            "syntax": "wire:cloak",
+            "description": "Hide element until Livewire initializes"
+        }
+    ],
+    "examples": [],
+    "related_topics": []
+}

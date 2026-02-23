@@ -1,0 +1,12 @@
+{
+    "name": "wire:show",
+    "description": "Toggle element visibility based on a component property value",
+    "variants": [
+        {
+            "syntax": "wire:show=\"boolProperty\"",
+            "description": "Show or hide element based on property value"
+        }
+    ],
+    "examples": [],
+    "related_topics": []
+}

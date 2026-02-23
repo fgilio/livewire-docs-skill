@@ -3,7 +3,7 @@
     "title": "wire:show",
     "description": "Livewire's wire:show directive makes it easy to show and hide elements based on the result of an expression.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/wire-show",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-show",
     "sections": [
         {
             "title": "#Basic usage",
@@ -28,6 +28,16 @@
                     "type": "class"
                 }
             ]
+        },
+        {
+            "title": "#Reference",
+            "content": "This directive has no modifiers.",
+            "examples": [
+                {
+                    "code": "wire:show=\"expression\"",
+                    "type": "class"
+                }
+            ]
         }
     ],
     "directives_used": [
@@ -36,16 +46,16 @@
         "wire:submit"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:51+00:00"
+    "scraped_at": "2026-02-23T13:10:05+00:00"
 }

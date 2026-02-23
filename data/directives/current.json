@@ -1,0 +1,16 @@
+{
+    "name": "wire:current",
+    "description": "Mark navigation elements as active based on the current URL",
+    "variants": [
+        {
+            "syntax": "wire:current",
+            "description": "Mark element as active when URL matches"
+        },
+        {
+            "syntax": "wire:current.exact",
+            "description": "Mark active only on exact URL match"
+        }
+    ],
+    "examples": [],
+    "related_topics": []
+}

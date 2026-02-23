@@ -1,0 +1,152 @@
+{
+    "slug": "islands",
+    "title": "Islands",
+    "description": "Islands allow you to create isolated regions within a Livewire component that update independently. When an action occurs inside an island, only that island re-renders — not the entire component.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/islands",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "To create an island, wrap any portion of your Blade template with the @island directive:\nWhen the \"Refresh\" button is clicked, only the island containing the revenue calculation will re-render. The rest of the component remains untouched.\nBecause the expensive calculation is inside a computed property—which evaluates on-demand—it will only be called when the island re-renders, not when other parts of the page update. However, since islands load with the page by default, the revenue property will still be calculated during the initial page load.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡dashboard.blade.php use Livewire\\Attributes\\Computed;use Livewire\\Component;use App\\Models\\Revenue; new class extends Component { #[Computed] public function revenue() { // Expensive calculation or query... return Revenue::yearToDate(); }};?> <div> @island <div> Revenue: {{ $this->revenue }}  <button type=\"button\" wire:click=\"$refresh\">Refresh</button> </div> @endisland  <div> <!-- Other content... --> </div></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Lazy loading",
+            "content": "Sometimes you have expensive computations or slow API calls that shouldn't block your initial page load. You can defer an island's initial render until after the page loads using the lazy parameter:\nThe island will display a loading state initially, then fetch and render its content in a separate request.\nBy default, lazy uses an intersection observer to trigger the load when the island becomes visible in the viewport. If you want the island to load immediately after the page loads (regardless of visibility), use defer instead:\nYou can customize what displays while a lazy island is loading using the @placeholder directive:",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡dashboard.blade.php use Livewire\\Attributes\\Computed;use Livewire\\Component;use App\\Models\\Revenue; new class extends Component { #[Computed] public function revenue() { // Expensive calculation or query... return Revenue::yearToDate(); }};?> <div> @island(lazy: true) <div> Revenue: {{ $this->revenue }}  <button type=\"button\" wire:click=\"$refresh\">Refresh</button> </div> @endisland  <div> <!-- Other content... --> </div></div>",
+                    "type": "class"
+                },
+                {
+                    "code": "{{-- Loads when scrolled into view --}}@island(lazy: true) <!-- ... -->@endisland {{-- Loads immediately after page load --}}@island(defer: true) <!-- ... -->@endisland",
+                    "type": "class"
+                },
+                {
+                    "code": "@island(lazy: true) @placeholder <!-- Loading indicator --> <div class=\"animate-pulse\"> <div class=\"h-32 bg-gray-200 rounded\"></div> </div> @endplaceholder  <div> Revenue: {{ $this->revenue }}  <button type=\"button\" wire:click=\"$refresh\">Refresh</button> </div>@endisland",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Named islands",
+            "content": "To trigger an island from elsewhere in your component, give it a name and reference it using wire:island:\nThe wire:island directive works alongside action directives like wire:click, wire:submit, etc. to scope their updates to a specific island.\nWhen you have multiple islands with the same name, they're linked together and will always render as a group:\nBoth islands will update together whenever one is triggered.",
+            "examples": [
+                {
+                    "code": "<div> @island(name: 'revenue') <div> Revenue: {{ $this->revenue }} </div> @endisland  <button type=\"button\" wire:click=\"$refresh\" wire:island=\"revenue\"> Refresh revenue </button></div>",
+                    "type": "class"
+                },
+                {
+                    "code": "@island(name: 'revenue') <div class=\"sidebar\"> Revenue: {{ $this->revenue }} </div>@endisland @island(name: 'revenue') <div class=\"header\"> Revenue: {{ $this->revenue }} </div>@endisland <button type=\"button\" wire:click=\"$refresh\" wire:island=\"revenue\"> Refresh revenue</button>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Append and prepend modes",
+            "content": "Instead of replacing content entirely, islands can append or prepend new content. This is perfect for pagination, infinite scroll, or real-time feeds:\nAvailable modes:",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡activity-feed.blade.php use Livewire\\Attributes\\Computed;use Livewire\\Component;use App\\Models\\Activity; new class extends Component { public $page = 1;  public function loadMore() { $this->page++; }  #[Computed] public function activities() { return Activity::latest() ->forPage($this->page, 10) ->get(); }};?> <div> @island(name: 'feed') @foreach ($this->activities as $activity) <x-activity-item wire:key=\"{{ $activity->id }}\" :activity=\"$activity\" /> @endforeach @endisland  <button type=\"button\" wire:click=\"loadMore\" wire:island.append=\"feed\"> Load more </button></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Nested islands",
+            "content": "Islands can be nested inside each other. When an outer island re-renders, inner islands are skipped by default:\nClicking \"Refresh revenue\" updates only the outer island, while \"Refresh breakdown\" updates only the inner island.",
+            "examples": [
+                {
+                    "code": "@island(name: 'revenue') <div> Total revenue: {{ $this->revenue }}  @island(name: 'breakdown') <div> Monthly breakdown: {{ $this->monthlyBreakdown }}  <button type=\"button\" wire:click=\"$refresh\"> Refresh breakdown </button> </div> @endisland  <button type=\"button\" wire:click=\"$refresh\"> Refresh revenue </button> </div>@endisland",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Always render with parent",
+            "content": "By default, when a component re-renders, islands are skipped. Use the always parameter to force an island to update whenever the parent component updates:\nWith always: true, the island will re-render whenever any part of the component updates. This is useful for critical data that should always stay in sync with the component state.\nThis also works for nested islands — an inner island with always: true will update whenever its parent island updates.",
+            "examples": [
+                {
+                    "code": "<div> @island(always: true) <div> Revenue: {{ $this->revenue }}  <button type=\"button\" wire:click=\"$refresh\">Refresh revenue</button> </div> @endisland  <button type=\"button\" wire:click=\"$refresh\">Refresh</button></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Skip initial render",
+            "content": "The skip parameter prevents an island from rendering initially, perfect for on-demand content:\nThe placeholder content will be shown initially. When triggered, the island renders and replaces the placeholder.",
+            "examples": [
+                {
+                    "code": "@island(skip: true) @placeholder <button type=\"button\" wire:click=\"$refresh\"> Load revenue details </button> @endplaceholder  <div> Revenue: {{ $this->revenue }}  <button type=\"button\" wire:click=\"$refresh\">Refresh</button> </div>@endisland",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Island polling",
+            "content": "You can use wire:poll within an island to refresh just that island on an interval:\nThe polling is scoped to the island — only the island will refresh every 3 seconds, not the entire component.",
+            "examples": [
+                {
+                    "code": "@island(skip: true) <div wire:poll.3s> Revenue: {{ $this->revenue }}  <button type=\"button\" wire:click=\"$refresh\">Refresh</button> </div>@endisland",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Triggering islands from JavaScript",
+            "content": "The wire:island directive only works alongside Livewire action directives like wire:click. To scope an action to an island from Alpine or JavaScript, use $wire.$island():\nThis is equivalent to wire:click=\"loadMore\" wire:island=\"feed\", but gives you the flexibility of Alpine expressions and JavaScript logic.\nAppend and prepend modes are supported via an options parameter:\nAny $wire method works with $island(), including $refresh(), $set(), and $toggle():",
+            "examples": [
+                {
+                    "code": "<button type=\"button\" x-on:click=\"$wire.$island('feed').loadMore()\"> Load more</button>",
+                    "type": "class"
+                },
+                {
+                    "code": "<button type=\"button\" x-on:click=\"$wire.$island('feed', { mode: 'append' }).loadMore()\"> Load more</button>",
+                    "type": "class"
+                },
+                {
+                    "code": "<button type=\"button\" x-on:click=\"$wire.$island('revenue').$refresh()\"> Refresh revenue</button>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Considerations",
+            "content": "While islands provide powerful isolation, keep in mind:\nData scope: Islands have access to the component's properties and methods, but not to template variables defined outside the island. Any @php variables or loop variables from the parent template won't be available inside the island:\nIslands can't be used in loops or conditionals: Because islands don't have access to loop variables or conditional context, they cannot be used inside @foreach, @if, or other control structures:\nState synchronization: Although island requests run in parallel, both islands and the root component can mutate the same component state. If multiple requests are in flight simultaneously, there can be divergent state — the last response to return will win the state battle.\nWhen to use islands: Islands are most beneficial for:\nIslands aren't necessary for static content, tightly coupled UI, or simple components that already render quickly.",
+            "examples": [
+                {
+                    "code": "@php $localVariable = 'This won\\'t be available in the island';@endphp @island {{-- ❌ This will error - $localVariable is not accessible --}} {{ $localVariable }}  {{-- ✅ Component properties work fine --}} {{ $this->revenue }}@endisland",
+                    "type": "class"
+                },
+                {
+                    "code": "{{-- ❌ This won't work --}}@foreach ($items as $item) @island {{ $item->name }} @endisland@endforeach {{-- ❌ This won't work either --}}@if ($showRevenue) @island Revenue: {{ $this->revenue }} @endisland@endif {{-- ✅ Instead, put the loop/conditional inside the island --}}@island @if ($this->showRevenue) Revenue: {{ $this->revenue }} @endif  @foreach ($this->items as $item) {{ $item->name }} @endforeach@endisland",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [
+        "wire:click",
+        "wire:island",
+        "wire:key",
+        "wire:poll"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:09:41+00:00"
+}

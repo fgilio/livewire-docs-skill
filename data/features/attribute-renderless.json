@@ -1,0 +1,64 @@
+{
+    "slug": "attribute-renderless",
+    "title": "Renderless",
+    "description": "The #[Renderless] attribute skips the rendering phase of Livewire's lifecycle when an action is called, improving performance for actions that don't modify the component's view.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-renderless",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[Renderless] attribute to any action method that doesn't need to re-render the component:\nThe example above uses wire:intersect to call incrementViewCount() when the user scrolls to the bottom. Since #[Renderless] is applied, the view count is logged but the template doesn't re-render—no part of the page is affected.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡show.blade.php use Livewire\\Attributes\\Renderless;use Livewire\\Component;use App\\Models\\Post; new class extends Component { public Post $post;  public function mount(Post $post) { $this->post = $post; }  #[Renderless] public function incrementViewCount() { $this->post->incrementViewCount(); }};",
+                    "type": "class"
+                },
+                {
+                    "code": "<div> <h1>{{ $post->title }}</h1> <p>{{ $post->content }}</p>  <div wire:intersect=\"incrementViewCount\"></div></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#When to use",
+            "content": "Use #[Renderless] when an action:\nCommon use cases include:",
+            "examples": []
+        },
+        {
+            "title": "#Alternative approaches",
+            "content": "If you need to conditionally skip rendering or prefer not to use attributes, you can call skipRender() directly in your action:\nYou can also skip rendering directly from the element using the .renderless modifier:\nThis approach is useful for one-off cases where you don't want to add an attribute to the method.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡show.blade.php use Livewire\\Component;use App\\Models\\Post; new class extends Component { public Post $post;  public function incrementViewCount() { $this->post->incrementViewCount();  $this->skipRender(); }};",
+                    "type": "class"
+                },
+                {
+                    "code": "<button type=\"button\" wire:click.renderless=\"incrementViewCount\"> Track View</button>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Learn more",
+            "content": "For more information about actions and performance optimization, see the Actions documentation.",
+            "examples": []
+        }
+    ],
+    "directives_used": [
+        "wire:click",
+        "wire:intersect"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:19+00:00"
+}

@@ -3,7 +3,7 @@
     "title": "wire:stream",
     "description": "Livewire allows you to stream content to a web page before a request is complete via the wire:stream API. This is an extremely useful feature for things like AI chat-bots which stream responses as they are generated.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/wire-stream",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-stream",
     "sections": [
         {
             "title": "#Streaming chat-bot responses",
@@ -28,6 +28,16 @@
                     "type": "class"
                 }
             ]
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "wire:stream=\"name\"",
+                    "type": "class"
+                }
+            ]
         }
     ],
     "directives_used": [
@@ -36,16 +46,16 @@
         "wire:submit"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:53+00:00"
+    "scraped_at": "2026-02-23T13:10:07+00:00"
 }

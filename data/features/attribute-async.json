@@ -1,0 +1,79 @@
+{
+    "slug": "attribute-async",
+    "title": "Async",
+    "description": "The #[Async] attribute allows actions to run in parallel without being queued, making them execute immediately even if other requests are in-flight.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-async",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[Async] attribute to any action method that should run in parallel:\nWhen logActivity() is called, it executes immediately without blocking other requests or being blocked by them.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡show.blade.php use Livewire\\Attributes\\Async;use Livewire\\Component;use App\\Models\\Post; new class extends Component { public Post $post;  #[Async] public function logActivity() { Activity::log('post-viewed', $this->post); }};",
+                    "type": "class"
+                },
+                {
+                    "code": "<div wire:intersect=\"logActivity\"> <!-- Logs activity asynchronously when element enters viewport --></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#When to use",
+            "content": "Use #[Async] for fire-and-forget operations where the result doesn't affect what's displayed on the page:\nHere's an example tracking external link clicks:\nBecause tracking happens asynchronously, the user's click isn't delayed by the network request.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡external-link.blade.php use Livewire\\Attributes\\Async;use Livewire\\Component; new class extends Component { public $url;  #[Async] public function trackClick() { Analytics::track('external-link-clicked', [ 'url' => $this->url, 'user_id' => auth()->id(), ]); }};",
+                    "type": "class"
+                },
+                {
+                    "code": "<a href=\"{{ $url }}\" target=\"_blank\" wire:click=\"trackClick\"> Visit External Site</a>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#When NOT to use",
+            "content": "Never use async actions if they modify component state that's reflected in your UI. Because async actions run in parallel, you can end up with unpredictable race conditions where your component's state diverges across multiple simultaneous requests.\nConsider this dangerous example:\nIf a user rapidly clicks the increment button, multiple async requests fire simultaneously. Each request starts with the same initial $count value, leading to lost updates. You might click 5 times but only see the counter increment by 1.\nThe rule of thumb: Only use async for actions that perform pure side effects—operations that don't change any properties that affect your component's view.",
+            "examples": [
+                {
+                    "code": "// Warning: This snippet demonstrates what NOT to do... <?php // resources/views/components/⚡counter.blade.php use Livewire\\Attributes\\Async;use Livewire\\Component; new class extends Component { public $count = 0;  #[Async] // Don't do this! public function increment() { $this->count++; // State mutation in an async action }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Alternative approach",
+            "content": "Instead of using the attribute, you can make specific action calls async with the .async modifier:\nThis approach is useful when you want the action to be async in some places but synchronous in others.",
+            "examples": [
+                {
+                    "code": "<button wire:click.async=\"logActivity\">Track Event</button>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Learn more",
+            "content": "For more information about async actions, race conditions, and advanced use cases, see the Actions documentation.",
+            "examples": []
+        }
+    ],
+    "directives_used": [
+        "wire:click",
+        "wire:intersect"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:09+00:00"
+}

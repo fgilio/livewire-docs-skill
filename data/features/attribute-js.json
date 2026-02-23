@@ -1,0 +1,84 @@
+{
+    "slug": "attribute-js",
+    "title": "Js",
+    "description": "The #[Js] attribute designates methods that return JavaScript code to be executed on the client-side. Methods marked with #[Js] can be called directly from your templates without making a server request.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-js",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[Js] attribute to methods that return JavaScript expressions:\nWhen $wire.resetForm() is called, the JavaScript executes directly in the browser — no server round-trip occurs.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡create.blade.php use Livewire\\Attributes\\Js;use Livewire\\Component; new class extends Component { public $title = ''; public $content = '';  #[Js] public function resetForm() { return <<<'JS' $wire.title = '' $wire.content = '' JS; } };",
+                    "type": "class"
+                },
+                {
+                    "code": "<form wire:submit=\"save\"> <input wire:model=\"title\" placeholder=\"Title\"> <textarea wire:model=\"content\" placeholder=\"Content\"></textarea>  <button type=\"submit\">Save</button> <button type=\"button\" @click=\"$wire.resetForm()\">Reset</button> </form>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Executing JavaScript after server actions",
+            "content": "If you need to execute JavaScript after a server action completes, use the js() method instead:\nThe js() method queues JavaScript to be executed when the server response arrives.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡create.blade.php use Livewire\\Component;use App\\Models\\Post; new class extends Component { public $title = '';  public function save() { Post::create(['title' => $this->title]);  $this->js(\"alert('Post saved successfully!')\"); }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Accessing $wire",
+            "content": "You can access the component's $wire object inside JavaScript expressions:",
+            "examples": [
+                {
+                    "code": "#[Js]public function resetForm(){ return <<<'JS' $wire.title = '' $wire.content = '' JS;}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#When to use",
+            "content": "Use #[Js] when you need to:",
+            "examples": []
+        },
+        {
+            "title": "#JavaScript actions vs #[Js] methods",
+            "content": "There's an important distinction:\nBoth approaches execute JavaScript on the client without a server round-trip. The difference is where the JavaScript code is defined.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡example.blade.php use Livewire\\Attributes\\Js;use Livewire\\Component; new class extends Component { public $count = 0;  // JavaScript defined in PHP #[Js] public function showCount() { return \"alert('Count is: {$this->count}')\"; }};",
+                    "type": "class"
+                },
+                {
+                    "code": "<div> <button @click=\"$wire.showCount()\">Show Count (from PHP)</button> <button @click=\"$js.incrementLocal()\">Increment Local (from JS)</button></div> @script<script> // JavaScript defined in JavaScript $js('incrementLocal', () => { console.log('No server request made') })</script>@endscript",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Learn more",
+            "content": "For more information about JavaScript integration in Livewire, see:",
+            "examples": []
+        }
+    ],
+    "directives_used": [
+        "wire:model",
+        "wire:submit"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:12+00:00"
+}

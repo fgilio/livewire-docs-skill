@@ -3,7 +3,7 @@
     "title": "wire:confirm",
     "description": "Before performing dangerous actions in Livewire, you may want to provide your users with some sort of visual confirmation.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/wire-confirm",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-confirm",
     "sections": [
         {
             "title": "#Prompting users for input",
@@ -14,6 +14,16 @@
                     "type": "class"
                 }
             ]
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "wire:confirm=\"message\"",
+                    "type": "class"
+                }
+            ]
         }
     ],
     "directives_used": [
@@ -21,16 +31,16 @@
         "wire:confirm"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:42+00:00"
+    "scraped_at": "2026-02-23T13:09:57+00:00"
 }

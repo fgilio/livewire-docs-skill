@@ -3,7 +3,7 @@
     "title": "Teleport",
     "description": "Livewire allows you to teleport part of your template to another part of the DOM on the page entirely.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/teleport",
+    "url": "https://livewire.laravel.com/docs/4.x/teleport",
     "sections": [
         {
             "title": "#Basic usage",
@@ -22,16 +22,16 @@
     ],
     "directives_used": [],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:30+00:00"
+    "scraped_at": "2026-02-23T13:09:49+00:00"
 }

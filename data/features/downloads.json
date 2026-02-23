@@ -3,14 +3,14 @@
     "title": "File Downloads",
     "description": "File downloads in Livewire work much the same as in Laravel itself. Typically, you can use any Laravel download utility inside a Livewire component, and it should work as expected.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/downloads",
+    "url": "https://livewire.laravel.com/docs/4.x/downloads",
     "sections": [
         {
             "title": "#Basic usage",
-            "content": "Triggering a file download in Livewire is as simple as returning a standard Laravel download response.\nBelow is an example of a ShowInvoice component that contains a \"Download\" button to download the invoice PDF:\nJust like in a Laravel controller, you can also use the Storage facade to initiate downloads:",
+            "content": "Triggering a file download in Livewire is as simple as returning a standard Laravel download response.\nBelow is an example of a show-invoice component that contains a \"Download\" button to download the invoice PDF:\nJust like in a Laravel controller, you can also use the Storage facade to initiate downloads:",
             "examples": [
                 {
-                    "code": "<?php namespace App\\Livewire; use Livewire\\Component;use App\\Models\\Invoice; class ShowInvoice extends Component{ public Invoice $invoice;  public function mount(Invoice $invoice) { $this->invoice = $invoice; }  public function download() { return response()->download( $this->invoice->file_path, 'invoice.pdf' ); }  public function render() { return view('livewire.show-invoice'); }}",
+                    "code": "<?php // resources/views/components/⚡show-invoice.blade.php use Livewire\\Component;use App\\Models\\Invoice; new class extends Component { public Invoice $invoice;  public function mount(Invoice $invoice) { $this->invoice = $invoice; }  public function download() { return response()->download( $this->invoice->file_path, 'invoice.pdf' ); }};",
                     "type": "class"
                 },
                 {
@@ -52,16 +52,16 @@
         "wire:click"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:25+00:00"
+    "scraped_at": "2026-02-23T13:09:48+00:00"
 }

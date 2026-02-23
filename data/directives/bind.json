@@ -1,0 +1,12 @@
+{
+    "name": "wire:bind",
+    "description": "Bind a property value to an element attribute",
+    "variants": [
+        {
+            "syntax": "wire:bind=\"propertyName\"",
+            "description": "Bind a property value to an element attribute"
+        }
+    ],
+    "examples": [],
+    "related_topics": []
+}

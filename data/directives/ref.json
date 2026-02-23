@@ -1,0 +1,12 @@
+{
+    "name": "wire:ref",
+    "description": "Create a named reference to an element for use in component PHP code",
+    "variants": [
+        {
+            "syntax": "wire:ref=\"name\"",
+            "description": "Create a reference to an element for use in PHP"
+        }
+    ],
+    "examples": [],
+    "related_topics": []
+}

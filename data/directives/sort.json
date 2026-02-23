@@ -1,0 +1,20 @@
+{
+    "name": "wire:sort",
+    "description": "Enable drag-and-drop sorting on a list of items",
+    "variants": [
+        {
+            "syntax": "wire:sort=\"reorder\"",
+            "description": "Enable drag-and-drop sorting on a list"
+        },
+        {
+            "syntax": "wire:sort.item=\"itemId\"",
+            "description": "Mark an item as sortable"
+        },
+        {
+            "syntax": "wire:sort.handle",
+            "description": "Designate drag handle element"
+        }
+    ],
+    "examples": [],
+    "related_topics": []
+}

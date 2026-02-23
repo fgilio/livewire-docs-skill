@@ -1,0 +1,60 @@
+{
+    "slug": "directive-placeholder",
+    "title": "@placeholder",
+    "description": "The @placeholder directive displays custom content while lazy or deferred components and islands are loading.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/directive-placeholder",
+    "sections": [
+        {
+            "title": "#Basic usage with lazy components",
+            "content": "For single-file and multi-file components, use @placeholder to specify what displays during loading:\nWhen rendered with <livewire:revenue lazy />, the placeholder displays until the component loads.\nThe @placeholder directive works for single-file and multi-file components. For class-based components, use the placeholder() method instead.\nThe placeholder and component must share the same root element type. If your placeholder uses <div>, your component must also use <div>.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡revenue.blade.php use Livewire\\Component;use App\\Models\\Transaction; new class extends Component { public $amount;  public function mount() { // Slow database query... $this->amount = Transaction::monthToDate()->sum('amount'); }};?> @placeholder <div> <!-- Loading spinner --> <svg class=\"animate-spin h-5 w-5\">...</svg> </div>@endplaceholder <div> Revenue this month: {{ $amount }}</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Usage with islands",
+            "content": "Use @placeholder inside lazy islands to customize loading states:\nThe placeholder appears while the island is loading, then gets replaced with the actual content.",
+            "examples": [
+                {
+                    "code": "@island(lazy: true) @placeholder <div class=\"animate-pulse\"> <div class=\"h-32 bg-gray-200 rounded\"></div> </div> @endplaceholder  <div> Revenue: {{ $this->revenue }}  <button type=\"button\" wire:click=\"$refresh\">Refresh</button> </div>@endisland",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Skeleton placeholders",
+            "content": "Placeholders are ideal for skeleton loaders that match your content's layout:",
+            "examples": [
+                {
+                    "code": "@placeholder <div class=\"space-y-4\"> <div class=\"h-4 bg-gray-200 rounded w-3/4\"></div> <div class=\"h-4 bg-gray-200 rounded\"></div> <div class=\"h-4 bg-gray-200 rounded w-5/6\"></div> </div>@endplaceholder <div> <!-- Actual content --> <h2>{{ $post->title }}</h2> <p>{{ $post->content }}</p></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Learn more",
+            "content": "For lazy component loading, see the Lazy Loading documentation.\nFor island loading states, see the Islands documentation.",
+            "examples": []
+        }
+    ],
+    "directives_used": [
+        "wire:click"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:25+00:00"
+}

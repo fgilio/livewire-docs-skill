@@ -1,0 +1,118 @@
+{
+    "slug": "attribute-title",
+    "title": "Title",
+    "description": "The #[Title] attribute sets the page title for full-page Livewire components.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-title",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[Title] attribute to a full-page component to set its title:\nThe browser tab will display \"Create Post\" as the page title.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡create.blade.php use Livewire\\Attributes\\Title;use Livewire\\Component; new #[Title('Create Post')] class extends Component { public $title = ''; public $content = '';  public function save() { // Save post... }};?> <div> <h1>Create a New Post</h1>  <input type=\"text\" wire:model=\"title\" placeholder=\"Post title\"> <textarea wire:model=\"content\" placeholder=\"Post content\"></textarea>  <button wire:click=\"save\">Save Post</button></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Layout configuration",
+            "content": "For the #[Title] attribute to work, your layout file must include a $title variable:\nThe ?? 'My App' provides a fallback title if none is specified.",
+            "examples": [
+                {
+                    "code": "<!-- resources/views/components/layouts/app.blade.php --> <!DOCTYPE html><html><head> <title>{{ $title ?? 'My App' }}</title> </head><body> {{ $slot }}</body></html>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Dynamic titles",
+            "content": "For dynamic titles using component properties, use the title() method in the render() method:\nThe title will dynamically include the post's title.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡edit.blade.php use Livewire\\Component;use App\\Models\\Post; new class extends Component { public Post $post;  public function mount($id) { $this->post = Post::findOrFail($id); }  public function render() { return $this->view() ->title(\"Edit: {$this->post->title}\"); }};?> <div> <h1>Edit Post</h1> <!-- ... --></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Combining with layouts",
+            "content": "You can use both #[Title] and #[Layout] together:\nThis component will use the admin layout with \"Create Post\" as the title.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡create.blade.php use Livewire\\Attributes\\Layout;use Livewire\\Attributes\\Title;use Livewire\\Component; new#[Layout('layouts.admin')]#[Title('Create Post')]class extends Component { // ...};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#When to use",
+            "content": "Use #[Title] when:\nUse title() method when:",
+            "examples": []
+        },
+        {
+            "title": "#Example: CRUD pages",
+            "content": "Here's a complete example showing titles across CRUD operations:\nEach page has a contextually appropriate title that improves user experience and SEO.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡index.blade.php use Livewire\\Attributes\\Title;use Livewire\\Component; new #[Title('All Posts')] class extends Component { };",
+                    "type": "class"
+                },
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡create.blade.php use Livewire\\Attributes\\Title;use Livewire\\Component; new #[Title('Create Post')] class extends Component { };",
+                    "type": "class"
+                },
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡edit.blade.php use Livewire\\Component;use App\\Models\\Post; new class extends Component { public Post $post;  public function render() { return $this->view()->title(\"Edit: {$this->post->title}\"); }};",
+                    "type": "class"
+                },
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡show.blade.php use Livewire\\Component;use App\\Models\\Post; new class extends Component { public Post $post;  public function render() { return $this->view()->title($this->post->title); }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#SEO considerations",
+            "content": "Good page titles are crucial for SEO:",
+            "examples": []
+        },
+        {
+            "title": "#Only for full-page components",
+            "content": "The #[Title] attribute only works for full-page components accessed via routes. Regular components rendered within other views don't use titles—they inherit the parent page's title.",
+            "examples": []
+        },
+        {
+            "title": "#Learn more",
+            "content": "For more information about full-page components, layouts, and routing, see the Pages documentation.",
+            "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "#[Title( string $content,)]",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [
+        "wire:click",
+        "wire:model"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:20+00:00"
+}

@@ -1,0 +1,101 @@
+{
+    "slug": "styles",
+    "title": "Styles",
+    "description": "Livewire allows you to include component-specific styles directly in your single-file and multi-file components. These styles are automatically scoped to your component, preventing them from leaking into other parts of your application.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/styles",
+    "sections": [
+        {
+            "title": "#Scoped styles",
+            "content": "By default, styles defined in your component are scoped to that component only. This means your CSS selectors will only affect elements within your component, even if those same selectors exist elsewhere on the page.\nAdd a <style> tag at the root level of your single-file component:\nThe .title and .btn styles will only apply to elements within this component, not to any other elements on the page with the same classes.\nFor multi-file components, create a CSS file with the same name as your component:\ncounter.css",
+            "examples": [
+                {
+                    "code": "<?php use Livewire\\Component; new class extends Component { public $count = 0;  public function increment() { $this->count++; }};?> <div> <h1 class=\"title\">Count: {{ $count }}</h1> <button class=\"btn\" wire:click=\"increment\">+</button></div> <style>.title { color: blue; font-size: 2rem;} .btn { background: indigo; color: white; padding: 0.5rem 1rem; border-radius: 0.25rem;}</style>",
+                    "type": "class"
+                },
+                {
+                    "code": "resources/views/components/counter/├── counter.php├── counter.blade.php└── counter.css # Scoped styles",
+                    "type": "class"
+                },
+                {
+                    "code": ".title { color: blue; font-size: 2rem;} .btn { background: indigo; color: white; padding: 0.5rem 1rem; border-radius: 0.25rem;}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#How scoping works",
+            "content": "Livewire automatically wraps your styles in a selector that targets your component's root element. Behind the scenes, your CSS is transformed using CSS nesting:\nThis uses the wire:name attribute that Livewire adds to every component's root element, ensuring styles only apply within that component.\nYou can use the & selector to target the component's root element itself:\nThis will add a border and padding to the component's outermost element.",
+            "examples": [
+                {
+                    "code": "/* What you write */.btn { background: blue; } /* What gets served */[wire\\:name=\"counter\"] { .btn { background: blue; }}",
+                    "type": "class"
+                },
+                {
+                    "code": "<style>& { border: 2px solid gray; padding: 1rem;} .title { margin-top: 0;}</style>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Global styles",
+            "content": "Sometimes you need styles that apply globally rather than being scoped to a single component. Add the global attribute to your style tag:\nCreate a file with .global.css extension:",
+            "examples": [
+                {
+                    "code": "<style global>body { font-family: system-ui, sans-serif;} .prose { max-width: 65ch; line-height: 1.6;}</style>",
+                    "type": "class"
+                },
+                {
+                    "code": "resources/views/components/counter/├── counter.php├── counter.blade.php├── counter.css # Scoped styles└── counter.global.css # Global styles",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Combining scoped and global styles",
+            "content": "You can use both scoped and global styles in the same component:",
+            "examples": [
+                {
+                    "code": "<?php use Livewire\\Component; new class extends Component { // ...};?> <div class=\"counter\"> <h1 class=\"title\">My Counter</h1></div> <style>.title { color: blue;}</style> <style global>.counter-page-layout { display: grid; place-items: center;}</style>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Style deduplication",
+            "content": "Livewire automatically deduplicates styles when multiple instances of the same component appear on a page. The styles are only loaded once, regardless of how many component instances exist.",
+            "examples": []
+        },
+        {
+            "title": "#When to use component styles",
+            "content": "Use scoped styles when:\nUse global styles when:\nUse @assets for external stylesheets:",
+            "examples": [
+                {
+                    "code": "@assets<link rel=\"stylesheet\" href=\"https://cdn.example.com/library.css\">@endassets",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Browser support",
+            "content": "Scoped styles use CSS nesting, which is supported in all modern browsers (Chrome 120+, Firefox 117+, Safari 17.2+). For older browser support, consider using a CSS preprocessor or the @assets directive with pre-compiled stylesheets.",
+            "examples": []
+        }
+    ],
+    "directives_used": [
+        "wire:click"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:09:39+00:00"
+}

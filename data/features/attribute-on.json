@@ -1,0 +1,141 @@
+{
+    "slug": "attribute-on",
+    "title": "On",
+    "description": "The #[On] attribute allows a component to listen for events and execute a method when those events are dispatched.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-on",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[On] attribute to any method that should be called when an event is dispatched:\nWhen another component dispatches the post-created event, the updatePostList() method will be called automatically.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡dashboard.blade.php use Livewire\\Attributes\\On;use Livewire\\Component; new class extends Component { #[On('post-created')] public function updatePostList($title) { session()->flash('status', \"New post created: {$title}\"); }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Dispatching events",
+            "content": "To dispatch an event that triggers listeners, use the dispatch() method:\nThe post-created event will trigger any methods decorated with #[On('post-created')].",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡create.blade.php use Livewire\\Component;use App\\Models\\Post; new class extends Component { public $title = '';  public function save() { $post = Post::create(['title' => $this->title]);  $this->dispatch('post-created', title: $post->title);   return redirect('/posts'); }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Passing data to listeners",
+            "content": "Events can pass data as named parameters:",
+            "examples": [
+                {
+                    "code": "// Dispatching with multiple parameters$this->dispatch('post-updated', id: $post->id, title: $post->title);",
+                    "type": "class"
+                },
+                {
+                    "code": "// Listening and receiving parameters#[On('post-updated')]public function handlePostUpdate($id, $title){ // Use $id and $title...}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Dynamic event names",
+            "content": "You can use component properties in event names for scoped listening:\nIf $post->id is 3, this will only listen for post-updated.3 events, ignoring updates to other posts.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡show.blade.php use Livewire\\Attributes\\On;use Livewire\\Component;use App\\Models\\Post; new class extends Component { public Post $post;  #[On('post-updated.{post.id}')] public function refreshPost() { $this->post->refresh(); }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Multiple event listeners",
+            "content": "A single method can listen for multiple events:",
+            "examples": [
+                {
+                    "code": "#[On('post-created')]#[On('post-updated')]#[On('post-deleted')]public function refreshStats(){ // Refresh statistics when any post changes}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Listening to browser events",
+            "content": "You can also listen for browser events dispatched from JavaScript:",
+            "examples": [
+                {
+                    "code": "#[On('user-logged-in')]public function handleUserLogin(){ // Handle login...}",
+                    "type": "class"
+                },
+                {
+                    "code": "// From JavaScriptwindow.dispatchEvent(new CustomEvent('user-logged-in'));",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Alternative: Listening in the template",
+            "content": "Instead of using the attribute, you can listen for events directly on child components in your Blade template:\nThis listens for the saved event from the post.edit child component and refreshes the parent when it's dispatched.\nYou can also call specific methods:",
+            "examples": [
+                {
+                    "code": "<livewire:post.edit @saved=\"$refresh\" />",
+                    "type": "class"
+                },
+                {
+                    "code": "<livewire:post.edit @saved=\"handleSave($event.id)\" />",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#When to use",
+            "content": "Use #[On] when:",
+            "examples": []
+        },
+        {
+            "title": "#Example: Real-time notifications",
+            "content": "Here's a practical example of a notification bell that listens for new notifications:\nOther components can dispatch events to update the notification count:",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡notification-bell.blade.php use Livewire\\Attributes\\On;use Livewire\\Component; new class extends Component { public $unreadCount = 0;  public function mount() { $this->unreadCount = auth()->user()->unreadNotifications()->count(); }  #[On('notification-sent')] public function incrementCount() { $this->unreadCount++; }  #[On('notifications-read')] public function resetCount() { $this->unreadCount = 0; }};?> <button class=\"relative\"> <svg><!-- Bell icon --></svg> @if($unreadCount > 0) <span class=\"absolute -top-1 -right-1 bg-red-500 text-white rounded-full px-2 py-1 text-xs\"> {{ $unreadCount }} </span> @endif</button>",
+                    "type": "class"
+                },
+                {
+                    "code": "// From anywhere in your app$this->dispatch('notification-sent');",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Learn more",
+            "content": "For more information about events, dispatching to specific components, and Laravel Echo integration, see the Events documentation.",
+            "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "#[On( string $event,)]",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [
+        "wire:post"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:17+00:00"
+}

@@ -1,0 +1,12 @@
+{
+    "name": "wire:text",
+    "description": "Bind a component property as the text content of an element",
+    "variants": [
+        {
+            "syntax": "wire:text=\"propertyName\"",
+            "description": "Bind property value as text content of element"
+        }
+    ],
+    "examples": [],
+    "related_topics": []
+}

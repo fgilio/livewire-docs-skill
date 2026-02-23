@@ -1,0 +1,128 @@
+{
+    "slug": "csp",
+    "title": "CSP",
+    "description": "Livewire offers a CSP-safe build that allows you to use Livewire applications in environments with strict Content Security Policy (CSP) headers that prohibit 'unsafe-eval'.",
+    "category": "advanced",
+    "url": "https://livewire.laravel.com/docs/4.x/csp",
+    "sections": [
+        {
+            "title": "#What is Content Security Policy (CSP)?",
+            "content": "Content Security Policy (CSP) is a security standard that helps prevent various types of attacks, including Cross-Site Scripting (XSS) and code injection attacks. CSP works by allowing web developers to control which resources the browser is allowed to load and execute.\nOne of the most restrictive CSP directives is 'unsafe-eval', which when omitted, prevents JavaScript from executing dynamic code through functions like eval(), new Function(), and similar constructs that compile and execute strings as code at runtime.\nBy default, Livewire (and its underlying Alpine.js framework) uses new Function() declarations to compile and execute JavaScript expressions from HTML attributes like:\nWhile this approach is much faster and safer than using eval() directly, it still violates the 'unsafe-eval' CSP directive that many security-conscious applications enforce.",
+            "examples": [
+                {
+                    "code": "<button wire:click=\"$set('count', count + 1)\">Increment</button><div wire:show=\"user.role === 'admin'\">Admin panel</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Enabling CSP-Safe Mode",
+            "content": "To enable Livewire's CSP-safe mode, you need to modify your application's configuration:\nIn your config/livewire.php file, set the csp_safe option to true:",
+            "examples": [
+                {
+                    "code": "'csp_safe' => true,",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Impact on Alpine.js",
+            "content": "Important: When you enable CSP-safe mode in Livewire, it also affects all Alpine.js functionality in your application. Alpine will automatically use its CSP-safe evaluator, which means all Alpine expressions throughout your app will be subject to the same parsing limitations.\nThis is where most developers will notice the constraints, as Alpine expressions tend to be more complex than typical Livewire expressions.",
+            "examples": []
+        },
+        {
+            "title": "#What's Supported",
+            "content": "The CSP build supports most common JavaScript expressions you'd use in Livewire:",
+            "examples": [
+                {
+                    "code": "<!-- \u0005 These work --><button wire:click=\"increment\">+</button><button wire:click=\"decrement\">-</button><button wire:click=\"reset\">Reset</button><button wire:click=\"save\">Save</button><input wire:model=\"name\"><input wire:model.live=\"search\">",
+                    "type": "class"
+                },
+                {
+                    "code": "<!-- \u0005 These work --><button wire:click=\"updateUser('John', 25)\">Update User</button><button wire:click=\"setCount(42)\">Set Count</button><button wire:click=\"saveData({ name: 'John', age: 30 })\">Save Object</button>",
+                    "type": "class"
+                },
+                {
+                    "code": "<!-- \u0005 These work --><input wire:model=\"user.name\"><input wire:model=\"settings.theme\"><button wire:click=\"$set('user.active', true)\">Activate</button><div wire:show=\"user.role === 'admin'\">Admin Panel</div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<!-- \u0005 These work --><div x-data=\"{ count: 0, name: 'Livewire' }\" wire:ignore> <button x-on:click=\"count++\">Increment</button> <span x-text=\"count\"></span> <span x-text=\"'Hello ' + name\"></span> <div x-show=\"count > 5\">Count is high!</div></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#What's Not Supported",
+            "content": "Some advanced JavaScript features won't work in CSP-safe mode:",
+            "examples": [
+                {
+                    "code": "<!-- L These don't work --><button wire:click=\"items.filter(i => i.active).length\">Count Active</button><div wire:show=\"users.some(u => u.role === 'admin')\">Has Admin</div><button wire:click=\"(() => console.log('Hi'))()\">Complex Function</button>",
+                    "type": "class"
+                },
+                {
+                    "code": "<!-- L These don't work --><div x-text=\"`Hello ${name}`\">Bad</div><div x-data=\"{ ...defaults }\">Bad</div><button x-on:click=\"() => doSomething()\">Bad</button>",
+                    "type": "class"
+                },
+                {
+                    "code": "<!-- L These don't work --><div wire:show=\"user[dynamicProperty]\">Bad</div><button wire:click=\"this[methodName]()\">Bad</button>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Working around limitations",
+            "content": "For complex Alpine expressions, use Alpine.data() or move logic to methods:",
+            "examples": [
+                {
+                    "code": "<!-- Instead of complex inline expressions --><div x-data=\"users\"> <div x-show=\"hasActiveAdmins\">Admin panel available</div> <span x-text=\"activeUserCount\">0</span></div> <script nonce=\"[nonce]\"> Alpine.data('users', () => ({ users: ...,  get hasActiveAdmins() { return this.users.filter(u => u.active && u.role === 'admin').length > 0; },  get activeUserCount() { return this.users.filter(u => u.active).length; } }));</script>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#CSP Headers Example",
+            "content": "Here's an example of CSP headers that work with Livewire's CSP-safe build:\nThe key points:",
+            "examples": [
+                {
+                    "code": "Content-Security-Policy: default-src 'self'; script-src 'nonce-[random]' 'strict-dynamic'; style-src 'self' 'unsafe-inline';",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Performance Considerations",
+            "content": "The CSP-safe build uses a different expression evaluator that:\nFor most applications, these differences are imperceptible, but it's worth testing with your specific use case.",
+            "examples": []
+        },
+        {
+            "title": "#Testing Your CSP Implementation",
+            "content": "To verify your CSP setup is working:",
+            "examples": []
+        },
+        {
+            "title": "#When to Use CSP-Safe Mode",
+            "content": "Consider using CSP-safe mode when:",
+            "examples": []
+        }
+    ],
+    "directives_used": [
+        "wire:click",
+        "wire:ignore",
+        "wire:model",
+        "wire:show"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:31+00:00"
+}

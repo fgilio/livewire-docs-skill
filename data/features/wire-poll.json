@@ -3,7 +3,7 @@
     "title": "wire:poll",
     "description": "Polling is a technique used in web applications to \"poll\" the server (send requests on a regular interval) for updates. It's a simple way to keep a page up-to-date without the need for a more sophisticated technology like WebSockets.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/wire-poll",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-poll",
     "sections": [
         {
             "title": "#Basic usage",
@@ -52,22 +52,33 @@
                     "type": "class"
                 }
             ]
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "wire:pollwire:poll=\"action\"",
+                    "type": "class"
+                }
+            ]
         }
     ],
     "directives_used": [
-        "wire:poll"
+        "wire:poll",
+        "wire:pollwire"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:46+00:00"
+    "scraped_at": "2026-02-23T13:10:01+00:00"
 }

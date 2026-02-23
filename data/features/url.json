@@ -3,22 +3,22 @@
     "title": "URL Query Parameters",
     "description": "Livewire allows you to store component properties in the URL's query string. For example, you may want a $search property in your component to be included in the URL: https://example.com/users?search=bob. This is particularly useful for things like filtering, sorting, and pagination, as it allows users to share and bookmark specific states of a page.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/url",
+    "url": "https://livewire.laravel.com/docs/4.x/url",
     "sections": [
         {
             "title": "#Basic usage",
-            "content": "Below is a ShowUsers component that allows you to search users by their name via a simple text input:\nAs you can see, because the text input uses wire:model.live=\"search\", as a user types into the field, network requests will be sent to update the $search property and show a filtered set of users on the page.\nHowever, if the visitor refreshes the page, the search value and results will be lost.\nTo preserve the search value across page loads so that a visitor can refresh the page or share the URL, we can store the search value in the URL's query string by adding the #[Url] attribute above the $search property like so:\nNow, if a user types \"bob\" into the search field, the URL bar in the browser will show:\nIf they now load this URL from a new browser window, \"bob\" will be filled in the search field, and the user results will be filtered accordingly.",
+            "content": "Below is a show-users component that allows you to search users by their name via a simple text input:\nAs you can see, because the text input uses wire:model.live=\"search\", as a user types into the field, network requests will be sent to update the $search property and show a filtered set of users on the page.\nHowever, if the visitor refreshes the page, the search value and results will be lost.\nTo preserve the search value across page loads so that a visitor can refresh the page or share the URL, we can store the search value in the URL's query string by adding the #[Url] attribute above the $search property like so:\nNow, if a user types \"bob\" into the search field, the URL bar in the browser will show:\nIf they now load this URL from a new browser window, \"bob\" will be filled in the search field, and the user results will be filtered accordingly.",
             "examples": [
                 {
-                    "code": "<?php namespace App\\Livewire; use Livewire\\Attributes\\Url;use Livewire\\Component;use App\\Models\\User; class ShowUsers extends Component{ public $search = '';  public function render() { return view('livewire.show-users', [ 'users' => User::search($this->search)->get(), ]); }}",
+                    "code": "<?php // resources/views/components/⚡show-users.blade.php use Livewire\\Attributes\\Computed;use Livewire\\Component;use App\\Models\\User; new class extends Component { public $search = '';  #[Computed] public function users() { return User::search($this->search)->get(); }};",
                     "type": "class"
                 },
                 {
-                    "code": "<div> <input type=\"text\" wire:model.live=\"search\">  <ul> @foreach ($users as $user) <li wire:key=\"{{ $user->id }}\">{{ $user->name }}</li> @endforeach </ul></div>",
+                    "code": "<div> <input type=\"text\" wire:model.live=\"search\">  <ul> @foreach ($this->users as $user) <li wire:key=\"{{ $user->id }}\">{{ $user->name }}</li> @endforeach </ul></div>",
                     "type": "class"
                 },
                 {
-                    "code": "<?php namespace App\\Livewire; use Livewire\\Attributes\\Url;use Livewire\\Component;use App\\Models\\User; class ShowUsers extends Component{ #[Url] public $search = '';  public function render() { return view('livewire.show-users', [ 'posts' => User::search($this->search)->get(), ]); }}",
+                    "code": "<?php // resources/views/components/⚡show-users.blade.php use Livewire\\Attributes\\Computed;use Livewire\\Attributes\\Url;use Livewire\\Component;use App\\Models\\User; new class extends Component { #[Url] public $search = '';  #[Computed] public function users() { return User::search($this->search)->get(); }};",
                     "type": "class"
                 },
                 {
@@ -107,16 +107,16 @@
         "wire:model"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:20+00:00"
+    "scraped_at": "2026-02-23T13:09:46+00:00"
 }

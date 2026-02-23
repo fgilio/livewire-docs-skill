@@ -1,0 +1,118 @@
+{
+    "slug": "wire-intersect",
+    "title": "wire:intersect",
+    "description": "Livewire's wire:intersect directive allows you to execute an action when an element enters or leaves the viewport. This is useful for lazy loading content, triggering analytics, or creating scroll-based interactions.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-intersect",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "The simplest form runs an action when an element becomes visible:\nWhen the element enters the viewport, the loadMore action will be called on your component.",
+            "examples": [
+                {
+                    "code": "<div wire:intersect=\"loadMore\"> <!-- Content loads when scrolled into view --></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Enter and leave events",
+            "content": "You can specify whether to run the action on enter, leave, or both:",
+            "examples": [
+                {
+                    "code": "<!-- Runs when entering viewport (default) --><div wire:intersect=\"trackView\">...</div> <!-- Runs when entering viewport (explicit) --><div wire:intersect:enter=\"trackView\">...</div> <!-- Runs when leaving viewport --><div wire:intersect:leave=\"pauseVideo\">...</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Visibility modifiers",
+            "content": "Control how much of the element needs to be visible before triggering:",
+            "examples": [
+                {
+                    "code": "<!-- Trigger when any part is visible (default) --><div wire:intersect=\"load\">...</div> <!-- Trigger when half is visible --><div wire:intersect.half=\"load\">...</div> <!-- Trigger when fully visible --><div wire:intersect.full=\"load\">...</div> <!-- Trigger at custom threshold (0-100) --><div wire:intersect.threshold.25=\"load\">...</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Margin",
+            "content": "Add a margin around the viewport to trigger the action before/after the element enters:",
+            "examples": [
+                {
+                    "code": "<!-- Trigger 200px before entering viewport --><div wire:intersect.margin.200px=\"loadMore\">...</div> <!-- Use percentage-based margin --><div wire:intersect.margin.10%=\"loadMore\">...</div> <!-- Different margins for each side (top, right, bottom, left) --><div wire:intersect.margin.10%.25px.25px.25px=\"loadMore\">...</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Fire once",
+            "content": "Use the .once modifier to ensure the action only fires on the first intersection:\nThis is particularly useful for analytics or tracking when you only want to record the first time a user sees something.",
+            "examples": [
+                {
+                    "code": "<div wire:intersect.once=\"trackImpression\"> <!-- Action only fires once, even if scrolled past multiple times --></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Combining modifiers",
+            "content": "You can combine multiple modifiers to create precise behaviors:",
+            "examples": [
+                {
+                    "code": "<!-- Load when half visible, only once, with 100px margin --><div wire:intersect.once.half.margin.100px=\"loadSection\"> <!-- ... --></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Common use cases",
+            "content": "",
+            "examples": [
+                {
+                    "code": "<?php use Livewire\\Component; new class extends Component { public $page = 1; public $posts = [];  public function mount() { $this->loadPosts(); }  public function loadPosts() { $newPosts = Post::latest() ->skip(($this->page - 1) * 10) ->take(10) ->get();  $this->posts = array_merge($this->posts, $newPosts->toArray()); $this->page++; }};?> <div> @foreach ($posts as $post) <div>{{ $post['title'] }}</div> @endforeach  <div wire:intersect=\"loadPosts\"> Loading more posts... </div></div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<?php use Livewire\\Component; new class extends Component { public $imageLoaded = false;  public function loadImage() { $this->imageLoaded = true; }};?> <div> @if ($imageLoaded) <img src=\"/path/to/image.jpg\" alt=\"Product\"> @else <div wire:intersect.once=\"loadImage\" class=\"bg-gray-200 h-64\"> <!-- Placeholder --> </div> @endif</div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<div wire:intersect:enter.once=\"trackView\" wire:intersect:leave=\"trackLeave\"> <!-- Track when users view and leave this content --></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Comparison with Alpine's x-intersect",
+            "content": "If you're familiar with Alpine.js, wire:intersect works similarly to x-intersect but triggers Livewire actions instead of Alpine expressions. The modifiers and behavior are designed to feel familiar to Alpine users.",
+            "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "wire:intersect=\"action\"wire:intersect:enter=\"action\"wire:intersect:leave=\"action\"",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [
+        "wire:intersect"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:00+00:00"
+}

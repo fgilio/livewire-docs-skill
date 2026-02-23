@@ -3,7 +3,7 @@
     "title": "Validation",
     "description": "Livewire aims to make validating a user's input and giving them feedback as pleasant as possible. By building on top of Laravel's validation features, Livewire leverages your existing knowledge while also providing you with robust, additional features like real-time validation.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/validation",
+    "url": "https://livewire.laravel.com/docs/4.x/validation",
     "sections": [
         {
             "title": "#Validate attributes",
@@ -63,10 +63,10 @@
         },
         {
             "title": "#Real-time validation",
-            "content": "Real-time validation is the term used for when you validate a user's input as they fill out a form rather than waiting for the form submission.\nBy using #[Validate] attributes directly on Livewire properties, any time a network request is sent to update a property's value on the server, the provided validation rules will be applied.\nThis means to provide a real-time validation experience for your users on a specific input, no extra backend work is required. The only thing that is required is using wire:model.live or wire:model.blur to instruct Livewire to trigger network requests as the fields are filled out.\nIn the below example, wire:model.blur has been added to the text input. Now, when a user types in the field and then tabs or clicks away from the field, a network request will be triggered with the updated value and the validation rules will run:\nIf you are using a rules() method to declare your validation rules for a property instead of the #[Validate] attribute, you can still include a #[Validate] attribute with no parameters to retain the real-time validating behavior:\nNow, in the above example, even though #[Validate] is empty, it will tell Livewire to run the fields validation provided by rules() everytime the property is updated.",
+            "content": "Real-time validation is the term used for when you validate a user's input as they fill out a form rather than waiting for the form submission.\nBy using #[Validate] attributes directly on Livewire properties, any time a network request is sent to update a property's value on the server, the provided validation rules will be applied.\nThis means to provide a real-time validation experience for your users on a specific input, no extra backend work is required. The only thing that is required is using wire:model.live or wire:model.live.blur to instruct Livewire to trigger network requests as the fields are filled out.\nIn the below example, wire:model.live.blur has been added to the text input. Now, when a user types in the field and then tabs or clicks away from the field, a network request will be triggered with the updated value and the validation rules will run:\nIf you are using a rules() method to declare your validation rules for a property instead of the #[Validate] attribute, you can still include a #[Validate] attribute with no parameters to retain the real-time validating behavior:\nNow, in the above example, even though #[Validate] is empty, it will tell Livewire to run the fields validation provided by rules() everytime the property is updated.",
             "examples": [
                 {
-                    "code": "<form wire:submit=\"save\"> <input type=\"text\" wire:model.blur=\"title\">  <!-- --></form>",
+                    "code": "<form wire:submit=\"save\"> <input type=\"text\" wire:model.live.blur=\"title\">  <!-- --></form>",
                     "type": "class"
                 },
                 {
@@ -161,6 +161,16 @@
             ]
         },
         {
+            "title": "#Accessing errors in JavaScript",
+            "content": "Livewire provides a $errors magic property for client-side access to validation errors:\nWhen using Alpine.js, access $errors through $wire.$errors.",
+            "examples": [
+                {
+                    "code": "<form wire:submit=\"save\"> <input type=\"email\" wire:model=\"email\">  <div wire:show=\"$errors.has('email')\"> <span wire:text=\"$errors.first('email')\"></span> </div>  <button type=\"submit\">Save</button></form>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
             "title": "#Deprecated [#Rule] attribute",
             "content": "When Livewire v3 first launched, it used the term \"Rule\" instead of \"Validate\" for it's validation attributes (#[Rule]).\nBecause of naming conflicts with Laravel rule objects, this has since been changed to #[Validate]. Both are supported in Livewire v3, however it is recommended that you change all occurrences of #[Rule] with #[Validate] to stay current.",
             "examples": []
@@ -168,19 +178,21 @@
     ],
     "directives_used": [
         "wire:model",
-        "wire:submit"
+        "wire:show",
+        "wire:submit",
+        "wire:text"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:16+00:00"
+    "scraped_at": "2026-02-23T13:09:43+00:00"
 }

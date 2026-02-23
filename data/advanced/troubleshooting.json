@@ -3,7 +3,7 @@
     "title": "Troubleshooting",
     "description": "Here at Livewire HQ, we try to remove problems from your pathway before you hit them. However, sometimes, there are some problems that we can't solve without introducing new ones, and other times, there are problems we can't anticipate.",
     "category": "advanced",
-    "url": "https://livewire.laravel.com/docs/3.x/troubleshooting",
+    "url": "https://livewire.laravel.com/docs/4.x/troubleshooting",
     "sections": [
         {
             "title": "#Component mismatches",
@@ -22,11 +22,11 @@
                     "type": "class"
                 },
                 {
-                    "code": "@foreach($posts as $post) <livewire:show-post :$post :key=\"$post->id\" /> @endforeach",
+                    "code": "@foreach($posts as $post) <livewire:show-post :$post :wire:key=\"$post->id\" /> @endforeach",
                     "type": "class"
                 },
                 {
-                    "code": "@foreach($posts as $post) <div wire:key=\"{{ $post->id }}\"> ... <livewire:show-post :$post :key=\"$post->id\" /> ... </div>@endforeach",
+                    "code": "@foreach($posts as $post) <div wire:key=\"{{ $post->id }}\"> ... <livewire:show-post :$post :wire:key=\"$post->id\" /> ... </div>@endforeach",
                     "type": "class"
                 },
                 {
@@ -77,16 +77,16 @@
         "wire:show-post"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:59+00:00"
+    "scraped_at": "2026-02-23T13:10:29+00:00"
 }

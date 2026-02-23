@@ -1,0 +1,98 @@
+{
+    "slug": "directive-teleport",
+    "title": "@teleport",
+    "description": "The @teleport directive renders a portion of your template in a different location in the DOM, outside the component's normal placement.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/directive-teleport",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Wrap content with @teleport and specify where to render it using a CSS selector:\nThe modal content will be rendered at the end of the <body> element:\nThe @teleport selector can be any string you would pass to document.querySelector(), such as 'body', '#modal-root', or '.modal-container'.",
+            "examples": [
+                {
+                    "code": "<div> <div x-data=\"{ open: false }\"> <button @click=\"open = ! open\">Toggle Modal</button>  @teleport('body') <div x-show=\"open\"> Modal contents... </div> @endteleport </div></div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<body> <!-- Page content... -->  <div x-show=\"open\"> Modal contents... </div></body>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Why use teleport?",
+            "content": "Teleporting is useful for nested modals, dropdowns, and popovers where parent styles or z-index values can interfere with proper rendering.\nWithout teleporting:\nWith teleporting:",
+            "examples": [
+                {
+                    "code": "<div style=\"z-index: 10;\"> <!-- Parent modal with z-index: 10 -->  <div style=\"z-index: 20;\"> <!-- Child modal inherits parent's stacking context --> <!-- Backdrop may not cover parent modal properly --> </div></div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<div style=\"z-index: 10;\"> <!-- Parent modal -->  @teleport('body') <div style=\"z-index: 20;\"> <!-- Child modal rendered as sibling at body level --> <!-- Backdrop can cover everything properly --> </div> @endteleport</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Common use cases",
+            "content": "Modal dialogs:\nDropdown menus:\nToast notifications:",
+            "examples": [
+                {
+                    "code": "@teleport('body') <div class=\"fixed inset-0 bg-black/50\" x-show=\"showModal\"> <div class=\"modal\"> <!-- Modal content... --> </div> </div>@endteleport",
+                    "type": "class"
+                },
+                {
+                    "code": "@teleport('body') <div class=\"absolute\" x-show=\"open\" style=\"top: {{ $top }}px; left: {{ $left }}px;\"> <!-- Dropdown items... --> </div>@endteleport",
+                    "type": "class"
+                },
+                {
+                    "code": "@teleport('#notifications-container') <div class=\"toast\"> {{ $message }} </div>@endteleport",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Important constraints",
+            "content": "Livewire only supports teleporting HTML outside your components. Teleporting to another element within the same component will not work.\nOnly include a single root element inside your @teleport statement. Multiple root elements are not supported.\nValid:\nInvalid:",
+            "examples": [
+                {
+                    "code": "@teleport('body') <div> <h2>Title</h2> <p>Content</p> </div>@endteleport",
+                    "type": "class"
+                },
+                {
+                    "code": "@teleport('body') <h2>Title</h2> <p>Content</p>@endteleport",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Powered by Alpine",
+            "content": "This functionality uses Alpine's x-teleport directive under the hood.\nLearn more about teleporting content →",
+            "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "@teleport(string $selector) <!-- Content -->@endteleport",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:26+00:00"
+}

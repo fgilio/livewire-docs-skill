@@ -3,26 +3,38 @@
     "title": "wire:submit",
     "description": "Livewire makes it easy to handle form submissions via the wire:submit directive. By adding wire:submit to a <form> element, Livewire will intercept the form submission, prevent the default browser handling, and call any Livewire component method.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/wire-submit",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-submit",
     "sections": [
         {
             "title": "#Going deeper",
             "content": "wire:submit is just one of many event listeners that Livewire provides. The following two pages provide much more complete documentation on using wire:submit in your application:",
             "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "wire:submit=\"methodName\"wire:submit=\"methodName(param1, param2)\"",
+                    "type": "class"
+                }
+            ]
         }
     ],
-    "directives_used": [],
+    "directives_used": [
+        "wire:submit"
+    ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:33+00:00"
+    "scraped_at": "2026-02-23T13:09:51+00:00"
 }

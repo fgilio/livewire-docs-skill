@@ -1,9 +1,9 @@
 {
     "slug": "quickstart",
     "title": "Quickstart",
-    "description": "To begin your Livewire journey, we will create a simple \"counter\" component and render it in the browser. This example is a great way to experience Livewire for the first time as it demonstrates Livewire's liveness in the simplest way possible.",
+    "description": "Livewire allows you to build dynamic, reactive interfaces using only PHP—no JavaScript required. Instead of writing frontend code in JavaScript frameworks, you write simple PHP classes and Blade templates, and Livewire handles all the complex JavaScript behind the scenes.",
     "category": "getting-started",
-    "url": "https://livewire.laravel.com/docs/3.x/quickstart",
+    "url": "https://livewire.laravel.com/docs/4.x/quickstart",
     "sections": [
         {
             "title": "#Prerequisites",
@@ -12,7 +12,7 @@
         },
         {
             "title": "#Install Livewire",
-            "content": "From the root directory of your Laravel app, run the following Composer command:\nIf the application you are using already has AlpineJS installed, you will need to remove it for Livewire to work properly; otherwise, Alpine will be loaded twice and Livewire won't function. For example, if you installed the Laravel Breeze \"Blade with Alpine\" starter kit, you will need to remove Alpine from resources/js/app.js.",
+            "content": "From the root directory of your Laravel app, run the following Composer command:",
             "examples": [
                 {
                     "code": "composer require livewire/livewire",
@@ -21,98 +21,136 @@
             ]
         },
         {
-            "title": "#Create a Livewire component",
-            "content": "Livewire provides a convenient Artisan command to generate new components quickly. Run the following command to make a new Counter component:\nThis command will generate two new files in your project:",
-            "examples": [
-                {
-                    "code": "php artisan make:livewire counter",
-                    "type": "class"
-                }
-            ]
-        },
-        {
-            "title": "#Writing the class",
-            "content": "Open app/Livewire/Counter.php and replace its contents with the following:\nHere's a brief explanation of the code above:",
-            "examples": [
-                {
-                    "code": "<?php namespace App\\Livewire; use Livewire\\Component; class Counter extends Component{ public $count = 1;  public function increment() { $this->count++; }  public function decrement() { $this->count--; }  public function render() { return view('livewire.counter'); }}",
-                    "type": "class"
-                }
-            ]
-        },
-        {
-            "title": "#Writing the view",
-            "content": "Open the resources/views/livewire/counter.blade.php file and replace its content with the following:\nThis code will display the value of the $count property and two buttons that increment and decrement the $count property, respectively.\nIn order for Livewire to work, components must have just one single element as its root. If multiple root elements are detected, an exception is thrown. It is recommended to use a <div> element as in the example. HTML comments count as separate elements and should be put inside the root element. When rendering full-page components, named slots for the layout file may be put outside the root element. These are removed before the component is rendered.",
-            "examples": [
-                {
-                    "code": "<div> <h1>{{ $count }}</h1>  <button wire:click=\"increment\">+</button>  <button wire:click=\"decrement\">-</button></div>",
-                    "type": "class"
-                }
-            ]
-        },
-        {
-            "title": "#Register a route for the component",
-            "content": "Open the routes/web.php file in your Laravel application and add the following code:\nNow, our counter component is assigned to the /counter route, so that when a user visits the /counter endpoint in your application, this component will be rendered by the browser.",
-            "examples": [
-                {
-                    "code": "use App\\Livewire\\Counter; Route::get('/counter', Counter::class);",
-                    "type": "class"
-                }
-            ]
-        },
-        {
-            "title": "#Create a template layout",
-            "content": "Before you can visit /counter in the browser, we need an HTML layout for our component to render inside. By default, Livewire will automatically look for a layout file named: resources/views/components/layouts/app.blade.php\nYou may create this file if it doesn't already exist by running the following command:\nThis command will generate a file called resources/views/components/layouts/app.blade.php with the following contents:\nThe counter component will be rendered in place of the $slot variable in the template above.\nYou may have noticed there is no JavaScript or CSS assets provided by Livewire. That is because Livewire 3 and above automatically injects any frontend assets it needs.",
+            "title": "#Create a layout",
+            "content": "Before creating our component, let's set up a layout file that Livewire components will render inside. By default, Livewire looks for a layout at: resources/views/layouts/app.blade.php\nYou can create this file by running the following command:\nThis will generate resources/views/layouts/app.blade.php with the following contents:\nThe @livewireStyles and @livewireScripts directives include the necessary JavaScript and CSS assets for Livewire to function. Your component will be rendered in place of the {{ $slot }} variable.",
             "examples": [
                 {
                     "code": "php artisan livewire:layout",
                     "type": "class"
                 },
                 {
-                    "code": "<!DOCTYPE html><html lang=\"{{ str_replace('_', '-', app()->getLocale()) }}\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">  <title>{{ $title ?? 'Page Title' }}</title> </head> <body> {{ $slot }} </body></html>",
+                    "code": "<!DOCTYPE html><html lang=\"{{ str_replace('_', '-', app()->getLocale()) }}\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">  <title>{{ $title ?? config('app.name') }}</title>  @vite(['resources/css/app.css', 'resources/js/app.js'])  @livewireStyles </head> <body> {{ $slot }}  @livewireScripts </body></html>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Create a Livewire component",
+            "content": "Livewire provides a convenient Artisan command to generate new components. Run the following command to make a new page component:\nSince this component will be used as a full page, we use the pages:: prefix to keep it organized in the pages directory.\nThis command will generate a new single-file component at resources/views/pages/post/⚡create.blade.php.\nThe lightning bolt makes Livewire components instantly recognizable in your editor. It's completely optional and can be disabled in your config if you prefer. See the components documentation for more details.",
+            "examples": [
+                {
+                    "code": "php artisan make:livewire pages::post.create",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Write the component",
+            "content": "Open resources/views/pages/post/⚡create.blade.php and replace its contents with the following:\nThis form is intentionally unstyled so we can focus on Livewire's functionality. In a real application, you'd add CSS or use a framework like Tailwind.\nHere's what's happening in the code above:\nComponent properties:\nComponent methods:\nLivewire directives:\nComponents must have exactly one root HTML element. In this example, the <form> element is the single root. Multiple root elements or HTML comments outside the root element will cause an error. When rendering full-page components, named slots for the layout can be placed outside the root element.\nThe save() method uses dd() to dump the values for testing purposes. In a production application, you would typically save the data to a database and redirect:",
+            "examples": [
+                {
+                    "code": "<?php use Livewire\\Component; new class extends Component { public string $title = '';  public string $content = '';  public function save() { $this->validate([ 'title' => 'required|max:255', 'content' => 'required', ]);  dd($this->title, $this->content); }};?> <form wire:submit=\"save\"> <label> Title <input type=\"text\" wire:model=\"title\"> @error('title') <span style=\"color: red;\">{{ $message }}</span> @enderror </label>  <label> Content <textarea wire:model=\"content\" rows=\"5\"></textarea> @error('content') <span style=\"color: red;\">{{ $message }}</span> @enderror </label>  <button type=\"submit\">Save Post</button></form>",
+                    "type": "class"
+                },
+                {
+                    "code": "public function save(){ $validated = $this->validate([ 'title' => 'required|max:255', 'content' => 'required', ]);  Post::create($validated); // Assumes you have a Post model and database table  return $this->redirect('/posts');}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Register a route",
+            "content": "Open the routes/web.php file in your Laravel application and add the following:\nNow when a user visits /post/create, Livewire will render the pages::post.create component inside your layout file.",
+            "examples": [
+                {
+                    "code": "Route::livewire('/post/create', 'pages::post.create');",
                     "type": "class"
                 }
             ]
         },
         {
             "title": "#Test it out",
-            "content": "With our component class and templates in place, our component is ready to test!\nVisit /counter in your browser, and you should see a number displayed on the screen with two buttons to increment and decrement the number.\nAfter clicking one of the buttons, you will notice that the count updates in real time, without the page reloading. This is the magic of Livewire: dynamic frontend applications written entirely in PHP.\nWe've barely scratched the surface of what Livewire is capable of. Keep reading the documentation to see everything Livewire has to offer.",
+            "content": "With everything in place, let's test the component!\nStart your Laravel development server if it's not already running:\nVisit http://localhost:8000/post/create in your browser (or http://yourapp.test/post/create if using Valet, Herd, or a similar tool).\nYou should see a simple form with two fields and a submit button.\nTry the following:\nTest validation: Click \"Save Post\" without filling in any fields. You'll see red error messages appear instantly below each field—no page reload required.\nTest submission: Fill in both fields and click \"Save Post\". You should see a debug screen showing the values you entered.\nThis demonstrates Livewire's core power: reactive data binding, real-time validation, and form handling—all written in PHP without touching JavaScript.",
+            "examples": [
+                {
+                    "code": "php artisan serve",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Troubleshooting",
+            "content": "Component not found error:\nForm doesn't submit or validation doesn't show:\n404 error when visiting the route:",
+            "examples": []
+        },
+        {
+            "title": "#Next steps",
+            "content": "Now that you've built your first Livewire component, here are some key concepts to explore:\nWe've barely scratched the surface of what Livewire is capable of. Keep reading the documentation to see everything Livewire has to offer.",
             "examples": []
         }
     ],
     "directives_used": [
-        "wire:click",
-        "wire:layout"
+        "wire:layout",
+        "wire:model",
+        "wire:submit"
     ],
     "related": [
-        "installation",
         "upgrading",
+        "installation",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
         "lifecycle-hooks",
         "nesting",
-        "testing",
         "session-properties",
+        "testing",
         "understanding-nesting",
         "alpine",
+        "attribute-async",
+        "attribute-computed",
+        "attribute-defer",
+        "attribute-isolate",
+        "attribute-js",
+        "attribute-json",
+        "attribute-layout",
+        "attribute-lazy",
+        "attribute-locked",
+        "attribute-modelable",
+        "attribute-on",
+        "attribute-reactive",
+        "attribute-renderless",
+        "attribute-session",
+        "attribute-title",
+        "attribute-transition",
+        "attribute-url",
+        "attribute-validate",
         "bundling",
         "computed-properties",
         "contribution-guide",
+        "directive-island",
+        "directive-persist",
+        "directive-placeholder",
+        "directive-teleport",
         "downloads",
+        "islands",
         "lazy",
+        "loading-states",
         "locked",
         "navigate",
         "offline",
+        "packages",
         "pagination",
         "redirecting",
+        "styles",
         "synthesizers",
         "teleport",
         "uploads",
         "url",
         "validation",
+        "wire-bind",
         "wire-click",
         "wire-cloak",
         "wire-confirm",
@@ -120,23 +158,27 @@
         "wire-dirty",
         "wire-ignore",
         "wire-init",
+        "wire-intersect",
         "wire-loading",
         "wire-model",
         "wire-navigate",
         "wire-offline",
         "wire-poll",
+        "wire-ref",
         "wire-replace",
         "wire-show",
+        "wire-sort",
         "wire-stream",
         "wire-submit",
         "wire-text",
         "wire-transition",
         "volt",
+        "csp",
         "hydration",
         "javascript",
         "morphing",
         "security",
         "troubleshooting"
     ],
-    "scraped_at": "2026-01-02T23:36:57+00:00"
+    "scraped_at": "2026-02-23T13:09:28+00:00"
 }

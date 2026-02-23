@@ -1,0 +1,99 @@
+{
+    "slug": "attribute-layout",
+    "title": "Layout",
+    "description": "The #[Layout] attribute specifies which Blade layout a full-page component should use, allowing you to customize layouts on a per-component basis.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-layout",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[Layout] attribute to a full-page component to use a specific layout:\nThis component will render using the resources/views/layouts/dashboard.blade.php layout instead of the default.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡index.blade.php use Livewire\\Attributes\\Layout;use Livewire\\Attributes\\Computed;use Livewire\\Component;use App\\Models\\Post; new #[Layout('layouts::dashboard')] class extends Component { #[Computed] public function posts() { return Post::all(); }};?> <div> <h1>Posts</h1> @foreach ($this->posts as $post) <div wire:key=\"{{ $post->id }}\">{{ $post->title }}</div> @endforeach</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Default layout",
+            "content": "By default, Livewire uses the layout specified in your config/livewire.php file:\nThe #[Layout] attribute overrides this default for specific components.",
+            "examples": [
+                {
+                    "code": "'component_layout' => 'layouts::app',",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Passing data to layouts",
+            "content": "You can pass additional data to your layout using array syntax:\nIn your layout file, the $title variable will be available:",
+            "examples": [
+                {
+                    "code": "new #[Layout('layouts::dashboard', ['title' => 'Posts Dashboard'])] class extends Component { // ...};",
+                    "type": "class"
+                },
+                {
+                    "code": "<!DOCTYPE html><html><head> <title>{{ $title ?? 'My App' }}</title></head><body> {{ $slot }}</body></html>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Alternative: Using layout() method",
+            "content": "Instead of the attribute, you can use the layout() method in your render() method:\nThe attribute approach is cleaner for single-file components that don't need a render() method.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/pages/posts/⚡index.blade.php use Livewire\\Component; new class extends Component { public function render() { return view('livewire.posts.index') ->layout('layouts::dashboard', ['title' => 'Posts']); }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Using different layouts per page",
+            "content": "A common pattern is to use different layouts for different sections of your app:",
+            "examples": [
+                {
+                    "code": "// Admin pagesnew #[Layout('layouts::admin')] class extends Component { } // Marketing pagesnew #[Layout('layouts::marketing')] class extends Component { } // Dashboard pagesnew #[Layout('layouts::dashboard')] class extends Component { }",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#When to use",
+            "content": "Use #[Layout] when:\nThe #[Layout] attribute only applies to full-page components. Regular components that are rendered within other views don't use layouts.",
+            "examples": []
+        },
+        {
+            "title": "#Learn more",
+            "content": "For more information about full-page components and layouts, see the Pages documentation.",
+            "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "#[Layout( string $name, array $params = [],)]",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [
+        "wire:key"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:14+00:00"
+}

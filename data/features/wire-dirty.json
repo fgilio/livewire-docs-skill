@@ -3,7 +3,7 @@
     "title": "wire:dirty",
     "description": "In a traditional HTML page containing a form, the form is only ever submitted when the user presses the \"Submit\" button.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/wire-dirty",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-dirty",
     "sections": [
         {
             "title": "#Basic usage",
@@ -21,10 +21,10 @@
         },
         {
             "title": "#Targeting property updates",
-            "content": "Imagine you are using wire:model.blur to update a property on the server immediately after a user leaves an input field. In this scenario, you can provide a \"dirty\" indication for only that property by adding wire:target to the element that contains the wire:dirty directive.\nHere is an example of only showing a dirty indication when the title property has been changed:",
+            "content": "Imagine you are using wire:model.live.blur to update a property on the server immediately after a user leaves an input field. In this scenario, you can provide a \"dirty\" indication for only that property by adding wire:target to the element that contains the wire:dirty directive.\nHere is an example of only showing a dirty indication when the title property has been changed:",
             "examples": [
                 {
-                    "code": "<form wire:submit=\"update\"> <input wire:model.blur=\"title\">  <div wire:dirty wire:target=\"title\">Unsaved title...</div>   <button type=\"submit\">Update</button></form>",
+                    "code": "<form wire:submit=\"update\"> <input wire:model.live.blur=\"title\">  <div wire:dirty wire:target=\"title\">Unsaved title...</div>   <button type=\"submit\">Update</button></form>",
                     "type": "class"
                 }
             ]
@@ -34,7 +34,43 @@
             "content": "Often, instead of toggling entire elements, you may want to toggle individual CSS classes on an input when its state is \"dirty\".\nBelow is an example where a user types into an input field and the border becomes yellow, indicating an \"unsaved\" state. Then, when the user tabs away from the field, the border is removed, indicating that the state has been saved on the server:",
             "examples": [
                 {
-                    "code": "<input wire:model.blur=\"title\" wire:dirty.class=\"border-yellow-500\">",
+                    "code": "<input wire:model.live.blur=\"title\" wire:dirty.class=\"border-yellow-500\">",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Using the $dirty expression",
+            "content": "In addition to the wire:dirty directive, you can check dirty state programmatically using the $dirty expression in Livewire directives or $wire.$dirty() in Alpine.\nTo check if any property on the component has unsaved changes:\nTo check if a specific property has been modified:\nYou can also check nested properties:\nYou can use $wire.$dirty() in Alpine to conditionally run logic:\nOr apply conditional classes with Alpine:",
+            "examples": [
+                {
+                    "code": "<div wire:show=\"$dirty\">You have unsaved changes</div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<div wire:show=\"$dirty('title')\">Title has been modified</div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<div wire:show=\"$dirty('user.name')\">Name has been modified</div>",
+                    "type": "class"
+                },
+                {
+                    "code": "<button x-on:click=\"$wire.$dirty('title') && $wire.save()\"> Save Title</button>",
+                    "type": "class"
+                },
+                {
+                    "code": "<input wire:model=\"email\" :class=\"$wire.$dirty('email') && 'border-yellow-500'\">",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Reference",
+            "content": "Can be used in Livewire directives like wire:show=\"$dirty\" or in Alpine as $wire.$dirty().",
+            "examples": [
+                {
+                    "code": "wire:dirtywire:target=\"property\"",
                     "type": "class"
                 }
             ]
@@ -42,21 +78,23 @@
     ],
     "directives_used": [
         "wire:dirty",
+        "wire:dirtywire",
         "wire:model",
+        "wire:show",
         "wire:submit",
         "wire:target"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:41+00:00"
+    "scraped_at": "2026-02-23T13:09:57+00:00"
 }

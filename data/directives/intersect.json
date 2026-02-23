@@ -1,0 +1,16 @@
+{
+    "name": "wire:intersect",
+    "description": "Trigger an action when an element enters the browser viewport",
+    "variants": [
+        {
+            "syntax": "wire:intersect=\"methodName\"",
+            "description": "Trigger action when element enters viewport"
+        },
+        {
+            "syntax": "wire:intersect.once=\"methodName\"",
+            "description": "Trigger only once when element enters viewport"
+        }
+    ],
+    "examples": [],
+    "related_topics": []
+}

@@ -3,7 +3,7 @@
     "title": "wire:current",
     "description": "The wire:current directive allows you to easily detect and style currently active links on a page.",
     "category": "features",
-    "url": "https://livewire.laravel.com/docs/3.x/wire-current",
+    "url": "https://livewire.laravel.com/docs/4.x/wire-current",
     "sections": [
         {
             "title": "#Exact matching",
@@ -29,22 +29,32 @@
             "title": "#Troubleshooting",
             "content": "If wire:current is not detecting the current link correctly, ensure the following:",
             "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "wire:current=\"classes\"",
+                    "type": "class"
+                }
+            ]
         }
     ],
     "directives_used": [
         "wire:current"
     ],
     "related": [
+        "upgrading",
         "quickstart",
         "installation",
-        "upgrading",
         "components",
+        "pages",
         "properties",
         "actions",
         "forms",
         "events",
-        "lifecycle-hooks",
-        "nesting"
+        "lifecycle-hooks"
     ],
-    "scraped_at": "2026-01-02T23:37:38+00:00"
+    "scraped_at": "2026-02-23T13:09:55+00:00"
 }

@@ -1,0 +1,136 @@
+{
+    "slug": "attribute-validate",
+    "title": "Validate",
+    "description": "The #[Validate] attribute associates validation rules with component properties, enabling automatic real-time validation and clean rule declaration.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/attribute-validate",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Apply the #[Validate] attribute to properties that need validation:\nWith #[Validate], Livewire automatically validates properties on each update, providing instant feedback to users.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡create.blade.php use Livewire\\Attributes\\Validate;use Livewire\\Component;use App\\Models\\Post; new class extends Component { #[Validate('required|min:3')] public $title = '';  #[Validate('required|min:3')] public $content = '';  public function save() { $this->validate();  Post::create([ 'title' => $this->title, 'content' => $this->content, ]);  return redirect('/posts'); }};?> <div> <input type=\"text\" wire:model=\"title\"> @error('title') <span class=\"error\">{{ $message }}</span> @enderror  <textarea wire:model=\"content\"></textarea> @error('content') <span class=\"error\">{{ $message }}</span> @enderror  <button wire:click=\"save\">Save Post</button></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#How it works",
+            "content": "When you add #[Validate] to a property:",
+            "examples": []
+        },
+        {
+            "title": "#Real-time validation",
+            "content": "By default, #[Validate] validates properties as they're updated:\nAs users fill out the form, they receive immediate validation feedback.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡registration.blade.php use Livewire\\Attributes\\Validate;use Livewire\\Component; new class extends Component { #[Validate('required|email|unique:users,email')] public $email = '';  #[Validate('required|min:8')] public $password = '';};?> <div> <input type=\"email\" wire:model.live.blur=\"email\"> @error('email') <span>{{ $message }}</span> @enderror  <input type=\"password\" wire:model.live.blur=\"password\"> @error('password') <span>{{ $message }}</span> @enderror</div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Disabling auto-validation",
+            "content": "To validate only when explicitly calling $this->validate(), use onUpdate: false:\nNow validation only runs when save() is called, not on every property update.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/post/⚡create.blade.php use Livewire\\Attributes\\Validate;use Livewire\\Component;use App\\Models\\Post; new class extends Component { #[Validate('required|min:3', onUpdate: false)] public $title = '';  #[Validate('required|min:3', onUpdate: false)] public $content = '';  public function save() { $validated = $this->validate(); Post::create($validated); return redirect('/posts'); }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Custom attribute names",
+            "content": "Customize the field name in validation messages:\nError message will be \"The date of birth field is required\" instead of \"The dob field is required\".",
+            "examples": [
+                {
+                    "code": "#[Validate('required', as: 'date of birth')] public $dob;",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Custom validation messages",
+            "content": "Override default validation messages:\nFor multiple rules, use multiple attributes:",
+            "examples": [
+                {
+                    "code": "#[Validate('required', message: 'Please provide a post title')] public $title;",
+                    "type": "class"
+                },
+                {
+                    "code": "#[Validate('required', message: 'Please provide a post title')]#[Validate('min:3', message: 'This title is too short')]public $title;",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Array validation",
+            "content": "Validate array properties and their children:\nThis validates both the array itself and each individual task.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡task-list.blade.php use Livewire\\Attributes\\Validate;use Livewire\\Component; new class extends Component { #[Validate([ 'tasks' => 'required|array|min:1', 'tasks.*' => 'required|string|min:3', ])] public $tasks = [];  public function addTask() { $this->tasks[] = ''; }};",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Limitations",
+            "content": "PHP attributes can't use Laravel's Rule objects directly. For complex rules like Rule::exists(), use a rules() method instead:",
+            "examples": [
+                {
+                    "code": "protected function rules(){ return [ 'email' => ['required', 'email', Rule::unique('users')->ignore($this->userId)], ];}",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#When to use",
+            "content": "Use #[Validate] when:\nUse rules() method when:",
+            "examples": []
+        },
+        {
+            "title": "#Example: Contact form",
+            "content": "Here's a complete contact form with validation:\nUsers get immediate feedback as they fill out the form, with friendly field names and helpful error messages.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/pages/⚡contact.blade.php use Livewire\\Attributes\\Validate;use Livewire\\Component;use App\\Mail\\ContactMessage;use Illuminate\\Support\\Facades\\Mail; new class extends Component { #[Validate('required|min:2', as: 'name')] public $name = '';  #[Validate('required|email')] public $email = '';  #[Validate('required')] public $subject = '';  #[Validate('required|min:10', as: 'message')] public $message = '';  public function submit() { $validated = $this->validate();  Mail::to('[email protected]')->send(new ContactMessage($validated));  session()->flash('success', 'Message sent successfully!');  $this->reset(); }};?> <div> @if (session('success')) <div class=\"alert\">{{ session('success') }}</div> @endif  <form wire:submit=\"submit\"> <div> <input type=\"text\" wire:model.live.blur=\"name\" placeholder=\"Your name\"> @error('name') <span class=\"error\">{{ $message }}</span> @enderror </div>  <div> <input type=\"email\" wire:model.live.blur=\"email\" placeholder=\"Your email\"> @error('email') <span class=\"error\">{{ $message }}</span> @enderror </div>  <div> <input type=\"text\" wire:model.live.blur=\"subject\" placeholder=\"Subject\"> @error('subject') <span class=\"error\">{{ $message }}</span> @enderror </div>  <div> <textarea wire:model.live.blur=\"message\" placeholder=\"Your message\"></textarea> @error('message') <span class=\"error\">{{ $message }}</span> @enderror </div>  <button type=\"submit\">Send Message</button> </form></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Learn more",
+            "content": "For comprehensive documentation on validation, including form objects, custom rules, and testing, see the Validation documentation.",
+            "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "#[Validate( mixed $rule = null, ?string $attribute = null, ?string $as = null, mixed $message = null, bool $onUpdate = true, bool $translate = true,)]",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [
+        "wire:click",
+        "wire:model",
+        "wire:submit"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:23+00:00"
+}

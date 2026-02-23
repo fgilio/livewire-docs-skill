@@ -1,7 +1,7 @@
 ---
 name: livewire-docs
 description: >
-  Laravel Livewire v3 documentation lookup.
+  Laravel Livewire v4 documentation lookup.
   Provides offline access to livewire.laravel.com/docs via CLI.
   Use for: directives, component patterns, lifecycle hooks, forms, events, validation.
   Keywords: Livewire, wire:model, wire:click.
@@ -11,7 +11,7 @@ disable-model-invocation: false
 
 # Livewire Docs CLI
 
-Offline Livewire v3 documentation with JSON output for Claude Code integration.
+Offline Livewire v4 documentation with JSON output for Claude Code integration.
 
 ## Quick Reference
 
@@ -37,11 +37,11 @@ livewire-docs docs --json                 # JSON output
 
 Categories:
 - `getting-started` - Quickstart, installation, upgrade guide
-- `essentials` - Components, properties, actions, forms, events, lifecycle
-- `features` - Validation, uploads, pagination, Alpine, navigation
+- `essentials` - Components, pages, properties, actions, forms, events, lifecycle
+- `features` - Validation, uploads, pagination, Alpine, islands, navigation, lazy loading, styles
 - `volt` - Single-file components (functional API)
 - `directives` - All wire: directives reference
-- `advanced` - Morphing, hydration, security, JavaScript
+- `advanced` - Morphing, hydration, security, JavaScript, CSP, synthesizers, package development
 
 ### livewire-docs search
 

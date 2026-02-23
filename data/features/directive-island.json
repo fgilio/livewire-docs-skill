@@ -1,0 +1,85 @@
+{
+    "slug": "directive-island",
+    "title": "@island",
+    "description": "The @island directive creates isolated regions within a component that update independently, without re-rendering the entire component.",
+    "category": "features",
+    "url": "https://livewire.laravel.com/docs/4.x/directive-island",
+    "sections": [
+        {
+            "title": "#Basic usage",
+            "content": "Wrap any portion of your template with @island to create an isolated region:\nWhen the \"Refresh\" button is clicked, only the island re-renders—the rest of the component remains untouched.",
+            "examples": [
+                {
+                    "code": "<?php // resources/views/components/⚡dashboard.blade.php use Livewire\\Attributes\\Computed;use Livewire\\Component;use App\\Models\\Revenue; new class extends Component { #[Computed] public function revenue() { // Expensive calculation... return Revenue::yearToDate(); }};?> <div> @island <div> Revenue: {{ $this->revenue }}  <button type=\"button\" wire:click=\"$refresh\">Refresh</button> </div> @endisland  <div> <!-- Other content... --> </div></div>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Lazy loading islands",
+            "content": "Defer an island's initial render until after the page loads using the lazy parameter:\nThe island displays a loading state initially, then fetches its content in a separate request.\nBy default, lazy waits until the island is visible in the viewport. Use defer to load immediately after page load:",
+            "examples": [
+                {
+                    "code": "@island(lazy: true) <div> Revenue: {{ $this->revenue }} </div>@endisland",
+                    "type": "class"
+                },
+                {
+                    "code": "{{-- Loads when scrolled into view --}}@island(lazy: true) <!-- ... -->@endisland {{-- Loads immediately after page load --}}@island(defer: true) <!-- ... -->@endisland",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Custom loading states",
+            "content": "Use @placeholder to customize what displays while loading:",
+            "examples": [
+                {
+                    "code": "@island(lazy: true) @placeholder <div class=\"animate-pulse\"> <div class=\"h-32 bg-gray-200 rounded\"></div> </div> @endplaceholder  <div> Revenue: {{ $this->revenue }} </div>@endisland",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Named islands",
+            "content": "Give islands names to target them from elsewhere in your component:\nThe wire:island directive scopes updates to specific islands.",
+            "examples": [
+                {
+                    "code": "@island(name: 'revenue') <div>Revenue: {{ $this->revenue }}</div>@endisland <button type=\"button\" wire:click=\"$refresh\" wire:island=\"revenue\"> Refresh revenue</button>",
+                    "type": "class"
+                }
+            ]
+        },
+        {
+            "title": "#Why use islands?",
+            "content": "Islands provide performance isolation without the overhead of creating separate child components, managing props, or dealing with component communication.\nUse islands when:\nLearn more about islands →",
+            "examples": []
+        },
+        {
+            "title": "#Reference",
+            "content": "",
+            "examples": [
+                {
+                    "code": "@island( ?string $name = null, bool $lazy = false, bool $defer = false,) <!-- Content -->@endisland",
+                    "type": "class"
+                }
+            ]
+        }
+    ],
+    "directives_used": [
+        "wire:click",
+        "wire:island"
+    ],
+    "related": [
+        "upgrading",
+        "quickstart",
+        "installation",
+        "components",
+        "pages",
+        "properties",
+        "actions",
+        "forms",
+        "events",
+        "lifecycle-hooks"
+    ],
+    "scraped_at": "2026-02-23T13:10:24+00:00"
+}
