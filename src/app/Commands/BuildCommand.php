@@ -103,6 +103,11 @@ class BuildCommand extends Command
 
             exec($combineCmd, $output, $exitCode);
 
+            // Ad-hoc codesign on macOS (AMFI requires valid signature on Apple Silicon)
+            if (PHP_OS_FAMILY === 'Darwin') {
+                exec(sprintf('codesign -f -s - --timestamp=none %s 2>&1', escapeshellarg($binaryPath)));
+            }
+
             if ($exitCode !== 0 || ! file_exists($binaryPath)) {
                 $this->error('Failed to combine binary');
 
@@ -128,20 +133,29 @@ class BuildCommand extends Command
                 chmod($installPath, 0755);
                 $this->line("  Installed: {$installPath}");
 
-                // On macOS, trigger Gatekeeper check and guide user to approve
+                // On macOS, verify binary runs (AMFI may reject invalid signatures)
                 if (PHP_OS_FAMILY === 'Darwin') {
-                    // Try running the binary to trigger Gatekeeper
                     exec(sprintf('%s --version 2>&1', escapeshellarg($installPath)), $testOutput, $testExit);
 
                     if ($testExit === 137) {
-                        $this->newLine();
-                        $this->warn('Binary needs Gatekeeper approval.');
-                        $this->line('  1. Run: '.$installPath);
-                        $this->line('  2. Open System Settings > Privacy & Security');
-                        $this->line('  3. Click "Allow Anyway" for '.$name);
+                        // Binary killed - try codesigning the installed copy
+                        exec(sprintf('codesign -f -s - --timestamp=none %s 2>&1', escapeshellarg($installPath)), $signOutput, $signExit);
 
-                        // Open System Settings to the right pane
-                        exec('open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles" 2>/dev/null');
+                        if ($signExit === 0) {
+                            // Retry after signing
+                            exec(sprintf('%s --version 2>&1', escapeshellarg($installPath)), $testOutput, $testExit);
+                        }
+
+                        if ($testExit === 137) {
+                            // Inode cache - replace file to clear kernel's cached rejection
+                            $tmp = $installPath.'.tmp';
+                            copy($installPath, $tmp);
+                            rename($tmp, $installPath);
+                            chmod($installPath, 0755);
+                            exec(sprintf('codesign -f -s - --timestamp=none %s 2>&1', escapeshellarg($installPath)));
+
+                            $this->warn('Binary needed re-signing (Apple Silicon code signature fix).');
+                        }
                     }
                 }
             }

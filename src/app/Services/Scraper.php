@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * Scraper for Laravel Livewire v3 documentation.
+ * Scraper for Laravel Livewire v4 documentation.
  *
  * Parses HTML pages to extract structured documentation
  * including sections, code examples, and directives.
@@ -18,7 +18,7 @@ class Scraper
 
     private string $baseUrl = 'https://livewire.laravel.com';
 
-    private string $docsVersion = '3.x';
+    private string $docsVersion = '4.x';
 
     /**
      * Category mappings from URL path to our categories.
@@ -28,7 +28,9 @@ class Scraper
         'installation' => 'getting-started',
         'upgrade' => 'getting-started',
         'upgrading' => 'getting-started',
+        'upgrade-guide' => 'getting-started',
         'components' => 'essentials',
+        'pages' => 'essentials',
         'properties' => 'essentials',
         'actions' => 'essentials',
         'forms' => 'essentials',
@@ -37,22 +39,33 @@ class Scraper
         'nesting' => 'essentials',
         'testing' => 'essentials',
         'alpine' => 'features',
+        'islands' => 'features',
         'lazy' => 'features',
+        'lazy-loading' => 'features',
+        'loading-states' => 'features',
+        'styles' => 'features',
         'validation' => 'features',
         'uploads' => 'features',
         'file-uploads' => 'features',
+        'file-downloads' => 'features',
         'pagination' => 'features',
         'computed-properties' => 'features',
         'offline' => 'features',
         'polling' => 'features',
         'navigate' => 'features',
         'teleport' => 'features',
+        'url-query-parameters' => 'features',
+        'redirecting' => 'features',
         'volt' => 'volt',
         'morphing' => 'advanced',
         'hydration' => 'advanced',
         'security' => 'advanced',
         'javascript' => 'advanced',
         'troubleshooting' => 'advanced',
+        'csp' => 'advanced',
+        'synthesizers' => 'advanced',
+        'package-development' => 'advanced',
+        'contribution-guide' => 'advanced',
     ];
 
     /**
@@ -63,7 +76,6 @@ class Scraper
         'wire:click',
         'wire:submit',
         'wire:loading',
-        'wire:target',
         'wire:dirty',
         'wire:offline',
         'wire:navigate',
@@ -75,6 +87,14 @@ class Scraper
         'wire:transition',
         'wire:confirm',
         'wire:stream',
+        'wire:bind',
+        'wire:current',
+        'wire:cloak',
+        'wire:intersect',
+        'wire:ref',
+        'wire:show',
+        'wire:sort',
+        'wire:text',
     ];
 
     public function __construct()
@@ -248,10 +268,6 @@ class Scraper
                 ['syntax' => 'wire:loading.delay', 'description' => 'Delay showing by 200ms'],
                 ['syntax' => 'wire:loading.delay.long', 'description' => 'Delay showing by 500ms'],
             ],
-            'wire:target' => [
-                ['syntax' => 'wire:target="methodName"', 'description' => 'Only show loading for specific action'],
-                ['syntax' => 'wire:target="save, update"', 'description' => 'Target multiple actions'],
-            ],
             'wire:dirty' => [
                 ['syntax' => 'wire:dirty', 'description' => 'Show when form has unsaved changes'],
                 ['syntax' => 'wire:dirty.remove', 'description' => 'Hide when form has unsaved changes'],
@@ -298,6 +314,34 @@ class Scraper
             'wire:stream' => [
                 ['syntax' => 'wire:stream="propertyName"', 'description' => 'Stream content updates to element'],
             ],
+            'wire:bind' => [
+                ['syntax' => 'wire:bind="propertyName"', 'description' => 'Bind a property value to an element attribute'],
+            ],
+            'wire:current' => [
+                ['syntax' => 'wire:current', 'description' => 'Mark element as active when URL matches'],
+                ['syntax' => 'wire:current.exact', 'description' => 'Mark active only on exact URL match'],
+            ],
+            'wire:cloak' => [
+                ['syntax' => 'wire:cloak', 'description' => 'Hide element until Livewire initializes'],
+            ],
+            'wire:intersect' => [
+                ['syntax' => 'wire:intersect="methodName"', 'description' => 'Trigger action when element enters viewport'],
+                ['syntax' => 'wire:intersect.once="methodName"', 'description' => 'Trigger only once when element enters viewport'],
+            ],
+            'wire:ref' => [
+                ['syntax' => 'wire:ref="name"', 'description' => 'Create a reference to an element for use in PHP'],
+            ],
+            'wire:show' => [
+                ['syntax' => 'wire:show="boolProperty"', 'description' => 'Show or hide element based on property value'],
+            ],
+            'wire:sort' => [
+                ['syntax' => 'wire:sort="reorder"', 'description' => 'Enable drag-and-drop sorting on a list'],
+                ['syntax' => 'wire:sort.item="itemId"', 'description' => 'Mark an item as sortable'],
+                ['syntax' => 'wire:sort.handle', 'description' => 'Designate drag handle element'],
+            ],
+            'wire:text' => [
+                ['syntax' => 'wire:text="propertyName"', 'description' => 'Bind property value as text content of element'],
+            ],
             default => [
                 ['syntax' => $directive, 'description' => 'Livewire directive'],
             ],
@@ -313,7 +357,6 @@ class Scraper
             'wire:click' => 'Trigger a component action when the element is clicked',
             'wire:submit' => 'Handle form submission and trigger a component action',
             'wire:loading' => 'Show, hide, or modify elements while a component is processing a request',
-            'wire:target' => 'Scope loading indicators to specific actions or properties',
             'wire:dirty' => 'Show, hide, or modify elements when form data has been changed',
             'wire:offline' => 'Show, hide, or modify elements when the browser loses network connection',
             'wire:navigate' => 'Enable SPA-style navigation without full page reloads',
@@ -325,6 +368,14 @@ class Scraper
             'wire:transition' => 'Apply CSS transitions when elements are added or removed',
             'wire:confirm' => 'Show a confirmation dialog before executing an action',
             'wire:stream' => 'Stream content updates to a specific element for real-time UI updates',
+            'wire:bind' => 'Bind a property value to an element attribute',
+            'wire:current' => 'Mark navigation elements as active based on the current URL',
+            'wire:cloak' => 'Hide an element until Livewire has fully initialized on the page',
+            'wire:intersect' => 'Trigger an action when an element enters the browser viewport',
+            'wire:ref' => 'Create a named reference to an element for use in component PHP code',
+            'wire:show' => 'Toggle element visibility based on a component property value',
+            'wire:sort' => 'Enable drag-and-drop sorting on a list of items',
+            'wire:text' => 'Bind a component property as the text content of an element',
             default => 'Livewire directive',
         };
     }
