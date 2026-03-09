@@ -8,7 +8,7 @@
 
 Or manually:
 ```bash
-ln -sf ~/.claude/skills/livewire-docs/livewire-docs ~/.local/bin/livewire-docs
+ln -sf $AGENT_HOME/skills/livewire-docs/livewire-docs ~/.local/bin/livewire-docs
 ```
 
 ## Verify

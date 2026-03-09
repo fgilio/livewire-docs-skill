@@ -1,13 +1,9 @@
 # livewire-docs - Development
 
-## Built With
-
-This skill was created using `php-cli-builder`.
-
 ## Setup
 
 ```bash
-cd ~/.claude/skills/livewire-docs/src
+cd $AGENT_HOME/skills/livewire-docs/src
 composer install
 ./livewire-docs --help
 ```
@@ -16,13 +12,13 @@ composer install
 
 First-time setup (builds PHP + micro.sfx):
 ```bash
-php-cli-builder-spc-setup --doctor
-php-cli-builder-spc-build
+php-cli-skill-runtime-setup --doctor
+php-cli-skill-runtime-build
 ```
 
 Build and install to skill root:
 ```bash
-./livewire-docs build              # builds + copies to ../livewire-docs
+./livewire-docs build              # builds + copies to ../skill/livewire-docs
 ./livewire-docs build --no-install # only builds to builds/livewire-docs
 ```
 
