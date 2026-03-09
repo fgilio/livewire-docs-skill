@@ -4,7 +4,7 @@ Self-contained CLI binary. No PHP required.
 
 ## Install
 
-See [SETUP.md](SETUP.md) or run `./install`
+See [skill/SETUP.md](skill/SETUP.md) or run `./skill/install`
 
 ## Usage
 
